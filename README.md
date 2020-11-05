@@ -1,3 +1,1 @@
-#-> Programs from seminar and lectures
-#-> Project
-#-> Test
+Programs from seminars, lectures and tests.
