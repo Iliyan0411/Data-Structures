@@ -1,5 +1,6 @@
 #ifndef SOLUTION_H
 #define SOLUTION_H
+#include <iostream>
 #include <string>
 #include <stack>
 using namespace std;
@@ -18,7 +19,7 @@ public:
                 num += s[i]-'0';
                 i++;
             }
-            
+
             while(i<s.size() && isalpha(s[i])){
                 str += s[i];
                 i++;

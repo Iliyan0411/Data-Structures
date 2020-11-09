@@ -1,11 +1,12 @@
 #include "Solution.h"
-#include <iostream>
 
 
 int main()
 {
     Solution s;
-    string str = s.decodeString("3[a2[c]]");
+    string st;
+    getline(cin,st);
+    string str = s.decodeString(st);
 
     for(int i = 0; i< str.size(); ++i)
     {
