@@ -4,9 +4,9 @@
 int main()
 {
     Solution s;
-    string st;
-    getline(cin,st);
-    string str = s.decodeString(st);
+    std::string st;
+    std::getline(std::cin,st);
+    std::string str = s.decodeString(st);
 
     for(int i = 0; i< str.size(); ++i)
     {
