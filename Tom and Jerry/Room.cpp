@@ -43,7 +43,7 @@ void Room::setRoom()
     {
         for(int j = 0; j < width; ++j)
         {
-            room[i][j] = '0';
+            room[i][j] = ' ';
         }
     }
 }
@@ -92,4 +92,26 @@ int Room::getNumFurniture() const
 int Room::getNumPaintPos() const
 {
     return numPaintPos;
+}
+
+// operators:
+Room& Room::operator = (const Room& other)
+{
+    lenght = other.lenght;
+    width = other.width;
+    JerryPos = other.JerryPos;
+    TomPos = other.TomPos;
+    numFurniture = other.numFurniture;
+    numPaintPos = other.numPaintPos;
+
+    setRoom();
+    for(int i = 0; i < lenght; ++i)
+    {
+        for(int j = 0; j < width; ++j)
+        {
+            room[i][j] = other.room[i][j];
+        }
+    }
+
+    return *this;
 }

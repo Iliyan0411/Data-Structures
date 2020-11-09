@@ -37,6 +37,10 @@ public:
     Position getTomPos() const;
     int getNumFurniture() const;
     int getNumPaintPos() const;
+
+    // operators:
+
+    Room& operator = (const Room& other);
 };
 
 
