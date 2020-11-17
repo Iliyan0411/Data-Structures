@@ -125,6 +125,12 @@ bool UnsBinTree<T>::memberHelp(const T& x, UnsBinTree<T>::node* curr) const
 }
 
 template <class T>
+bool UnsBinTree<T>::isLeaf(UnsBinTree<T>::node* nod) const
+{
+    return !nod->left && !nod->right;
+}
+
+template <class T>
 int UnsBinTree<T>::height() const
 {
     return heightHelp(root);
@@ -192,6 +198,54 @@ T UnsBinTree<T>::minElementHelp(UnsBinTree<T>::node* curr, T min) const
 }
 
 template <class T>
+T UnsBinTree<T>::maxLeaf() const
+{
+    T smax = randLeaf(root)->data;
+
+    return maxLeafHelp(root,smax);
+}
+
+template <class T>
+T UnsBinTree<T>::maxLeafHelp(UnsBinTree<T>::node* curr, T maxl) const
+{
+    if(!curr)
+    {
+        return maxl;
+    }
+
+    if(isLeaf(curr) && curr->data > maxl)
+    {
+        maxl = curr->data;
+    }
+
+    return std::max(maxLeafHelp(curr->left, maxl), maxLeafHelp(curr->right, maxl));
+}
+
+template <class T>
+T UnsBinTree<T>::minLeaf() const
+{
+    T smin = randLeaf(root)->data;
+
+    return minLeafHelp(root, smin);
+}
+
+template <class T>
+T UnsBinTree<T>::minLeafHelp(UnsBinTree<T>::node* curr, T minl) const
+{
+    if(!curr)
+    {
+        return minl;
+    }
+
+    if(isLeaf(curr) && curr->data < minl)
+    {
+        minl = curr->data;
+    }
+
+    return std::min(minLeafHelp(curr->left, minl), minLeafHelp(curr->right, minl));
+}
+
+template <class T>
 typename UnsBinTree<T>::node* UnsBinTree<T>::locate(const char* path) const
 {
     assert(root != nullptr);
@@ -223,6 +277,23 @@ typename UnsBinTree<T>::node* UnsBinTree<T>::locate(const char* path) const
 }
 
 template <class T>
+typename UnsBinTree<T>::node* UnsBinTree<T>::randLeaf(UnsBinTree<T>::node* curr) const
+{
+    assert(curr);
+
+    if(curr->left) 
+    {
+        return randLeaf(curr->left);
+    }
+    if(curr->right) 
+    {
+        return randLeaf(curr->right);
+    }
+
+    return curr;
+}
+
+template <class T>
 int UnsBinTree<T>::minPathToLeaf() const
 {
     return minPathToLeafHelp(root);
@@ -237,6 +308,60 @@ int UnsBinTree<T>::minPathToLeafHelp(UnsBinTree<T>::node* curr) const
     }
     
     return 1 + std::min(minPathToLeafHelp(curr->left), minPathToLeafHelp(curr->right));
+}
+
+template <class T>
+int UnsBinTree<T>::size() const
+{
+    return sizeHelp(root);
+}
+
+template <class T>
+int UnsBinTree<T>::sizeHelp(UnsBinTree<T>::node* curr) const
+{
+    if(curr == nullptr)
+    {
+        return 0;
+    }
+
+    return 1 + sizeHelp(curr->left) + sizeHelp(curr->right);
+}
+
+template <class T>
+int UnsBinTree<T>::searchCount(bool (*pred)(const T&)) const
+{
+    return searchCountHelp(pred, root);
+}
+
+template <class T>
+int UnsBinTree<T>::searchCountHelp(bool (*pred)(const T&), UnsBinTree<T>::node* curr) const
+{
+    if(curr == nullptr || (!pred(curr->data) && curr != root))
+    {
+        return 0;
+    }
+    return 1 + searchCountHelp(pred, curr->left) + searchCountHelp(pred, curr->right); 
+}
+
+template <class T>
+int UnsBinTree<T>::countLeaves() const
+{
+    return countLeavesHelp(root);
+}
+
+template <class T>
+int UnsBinTree<T>::countLeavesHelp(UnsBinTree<T>::node* curr) const
+{
+   if(!curr)
+   {
+       return 0;
+   }
+   if(!curr->left && !curr->right)
+   {
+       return 1 + countLeavesHelp(curr->left) + countLeavesHelp(curr->right);
+   }
+
+   return countLeavesHelp(curr->left) + countLeavesHelp(curr->right);
 }
 
 #endif

@@ -1,6 +1,11 @@
 #include "UnsortedBinTree.h"
 #include <fstream>
 
+template<class T>
+bool even(const T& x)
+{
+    return x % 2 == 0;
+}
 
 int main()
 {
@@ -13,7 +18,7 @@ int main()
     t.add(7,"RR");
     t.add(6,"RRL");
     
-    std::cout << t.minElement();
+    
 
     std::ofstream dot("viz.dot");
     t.printDot(dot);

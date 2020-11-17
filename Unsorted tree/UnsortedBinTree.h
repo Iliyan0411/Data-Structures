@@ -21,14 +21,21 @@ private:
     void printDotHelp(std::ostream& out, UnsBinTree<T>::node* curr) const;
     
     bool memberHelp(const T& x, UnsBinTree<T>::node* curr) const;
+    bool isLeaf(UnsBinTree<T>::node* nod) const;
     
     int heightHelp(UnsBinTree<T>::node* curr) const;
     int minPathToLeafHelp(UnsBinTree<T>::node* curr) const;
+    int sizeHelp(UnsBinTree<T>::node* curr) const;
+    int searchCountHelp(bool (*pred)(const T&), UnsBinTree<T>::node* curr) const;
+    int countLeavesHelp(UnsBinTree<T>::node* curr) const;
     
     node* locate(const char* path) const;
+    node* randLeaf(UnsBinTree<T>::node* curr) const;
 
     T maxElementHelp(UnsBinTree<T>::node* curr, T max) const;
     T minElementHelp(UnsBinTree<T>::node* curr, T min) const;
+    T maxLeafHelp(UnsBinTree<T>::node* curr, T maxl) const;
+    T minLeafHelp(UnsBinTree<T>::node* curr, T minl) const;
 
 public:
     UnsBinTree();
@@ -42,10 +49,15 @@ public:
 
     int height() const;
     int minPathToLeaf() const;
+    int size() const;
+    int searchCount(bool (*pred)(const T&)) const;
+    int countLeaves() const;
 
     T operator[](const char* path) const;
     T maxElement() const;
     T minElement() const;
+    T maxLeaf() const;
+    T minLeaf() const;
 };
 
 #include "UnsortedBinTree.cpp"
