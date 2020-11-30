@@ -3,32 +3,32 @@
 
 struct Position
 {
-    int row, col;
+    int col, row;
 
     Position down()
     {
-        return {row+1,col};
+        return {col+1,row};
     }
     Position right()
     {
-        return {row,col+1};
+        return {col,row+1};
     }
     Position left()
     {
-        return {row,col-1};
+        return {col,row-1};
     }
     Position up()
     {
-        return {row-1,col};
+        return {col-1,row};
     }
 
-    Position& operator = (const Position& other)
-    {
-        row = other.row;
-        col = other.col;
+    // Position& operator = (const Position& other)
+    // {
+    //     row = other.row;
+    //     col = other.col;
 
-        return *this;
-    }
+    //     return *this;
+    // }
     bool operator != (const Position& other) const
     {
         return row != other.row || col != other.col;
