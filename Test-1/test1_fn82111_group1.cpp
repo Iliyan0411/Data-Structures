@@ -84,10 +84,21 @@ Node<std::stack<T>>* equalize(Node<std::stack<T>>* l)
     Node<std::stack<T>>* curr = l;
     while(curr->next != nullptr)
     {
-        while(curr->data.size() >= curr->next->data.size())
+        if(curr->data.size() >= curr->next->data.size())
         {
-            curr->next->data.push(curr->data.top());
-            curr->data.pop();
+            while(curr->data.size() >= curr->next->data.size())
+            {
+                curr->next->data.push(curr->data.top());
+                curr->data.pop();
+            }
+        }
+        else
+        {
+            while(curr->data.size() < curr->next->data.size())
+            {
+                curr->data.push(curr->next->data.top());
+                curr->next->data.pop();
+            }
         }
 
         curr = curr->next;
@@ -135,8 +146,19 @@ void shuffle(Node<T>*& L, int N)
 
 int main()
 {
+    Node<int>* l = nullptr;
 
+    pushBack<int>(l,1);
+    pushBack<int>(l,2);
+    pushBack<int>(l,3);
+    pushBack<int>(l,4);
+    pushBack<int>(l,5);
+    pushBack<int>(l,6);
 
+    shuffle<int>(l,5);
 
+    printList<int>(l);
+    
+    
     return 0;
 }
