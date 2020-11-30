@@ -1,4 +1,4 @@
-#include "UnsortedBinTree.h"
+#include "UnsortedBinTree.cpp"
 #include <fstream>
 
 template<class T>
@@ -18,7 +18,7 @@ int main()
     t.add(7,"RR");
     t.add(6,"RRL");
     
-    
+    t.printAll(std::cout);
 
     std::ofstream dot("viz.dot");
     t.printDot(dot);
