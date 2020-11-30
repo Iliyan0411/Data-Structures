@@ -1,67 +1,52 @@
 #include "Drone.h"
 
-
+//constructor:
 Drone::Drone(const Room& _r)
 {
-
-}
-Drone::Drone()
-{
-
+    r = _r;
+    painted = 0;
+    turns = 0;
 }
 
-void Drone::setPainted(const int& _painted)
-{
-
-}
-void Drone::setTurns(const int& _turns)
-{
-
-}
-void Drone::setPosInRoom(const Position& _posInRoom)
-{
-
-}
-
+// get methods:
 int Drone::getPainted() const
 {
-
+    return painted;
 }
 int Drone::getTurns() const
 {
-
+    return turns;
 }
-Position Drone::getPosInRoom() const
+Room Drone::getRoom() const
 {
-
+    return r;
 }
 
-void Drone::increasePainted()
-{
-
-}
+// increase methods:
 void Drone::increaseTurns()
 {
-
+    ++turns;
 }
 
+// drone moving:
 void Drone::N()
 {
-
+    r.moveDrone({-1,0});
 }
 void Drone::S()
 {
-
+    r.moveDrone({1,0});
 }
 void Drone::E()
 {
-
+    r.moveDrone({0,1});
 }
 void Drone::W()
 {
-
+    r.moveDrone({0,-1});
 }
 void Drone::P()
 {
-    
+    r.paintPos();
+    ++painted;
 }
