@@ -23,12 +23,11 @@ double evaluate (Tokenizer& tokenizer)
         return token.numval;
     }   
 
-    
     assert(token.type == Tokenizer::Token::open_par);
 
     int left = evaluate (tokenizer);
-    
     token = tokenizer.next_token();
+    
     char oper = token.c;
     assert(token.type == Tokenizer::Token::oper);
     
@@ -38,7 +37,6 @@ double evaluate (Tokenizer& tokenizer)
     assert(token.type == Tokenizer::Token::close_par);
 
     return apply(oper,left,right);
-    
 }
 
 int main()
