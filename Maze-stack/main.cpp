@@ -11,7 +11,7 @@ const int labSize = 8;
         0,0,0,0,0,0,0,0,
         1,0,1,0,0,0,0,0,
         0,0,1,0,0,0,0,0,
-        0,0,1,0,0,0,1,0,
+        0,0,1,0,0,0,1,1,
         0,0,1,0,0,0,1,0
     };
 
@@ -21,7 +21,7 @@ bool validPosition(const Position& curr)
             curr.col >= 0 &&
             curr.row < labSize &&
             curr.col < labSize &&
-            lab[curr.row][curr.col] == 0;
+            lab[curr.col][curr.row] == 0;
 }
 
 bool findPath(const Position& start, const Position& goal)
@@ -36,7 +36,7 @@ bool findPath(const Position& start, const Position& goal)
 
         if(validPosition(current))
         {
-            lab[current.row][current.col] = -1;
+            lab[current.col][current.row] = -1;
 
             s.push(current.down());
             s.push(current.right());
