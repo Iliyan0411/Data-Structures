@@ -18,15 +18,14 @@ int main()
     t.add(-2);
     t.add(18);
     t.add(5);
+    t.add(2);
+    t.add(14);
 
     t.print();
 
     std::ofstream file("viztree.dot");
-
     t.printDot(file);
-
     file.close();
-    
 
     return 0;    
 }
