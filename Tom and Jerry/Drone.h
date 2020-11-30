@@ -6,24 +6,17 @@ class Drone
 {
 private:
     Room r;
-    Position posInRoom;
     int painted;
     int turns;
 
 public:
-    // constructors:
+    // constructor:
     Drone(const Room& _r);
-    Drone();
-
-    // set methods:
-    void setPainted(const int& _painted);
-    void setTurns(const int& _turns);
-    void setPosInRoom(const Position& _posInRoom);
 
     // get methods:
     int getPainted() const;
     int getTurns() const;
-    Position getPosInRoom() const;
+    Room getRoom() const;
 
     // increasing:
     void increasePainted();

@@ -1,15 +1,14 @@
 #include "Room.h"
 
-Room::Room(const int& _lenght, const int& _width, const Position& _JerryPos, const Position& _TomPos, 
-            const int& _numFurniture, const int& _numPaintPos)
+Room::Room(const int& _lenght, const int& _width, const Position& _JerryPos, const Position& _TomPos)
     {
         setLenght(_lenght);
         setWidth(_width);
         setJerryPos(_JerryPos);
         setTomPos(_TomPos);
-        setNumFurniture(_numFurniture);
-        setNumPaintPos(_numPaintPos);
         setRoom();
+
+        dronePos = TomPos;
     }
 Room::Room()
 {
@@ -17,8 +16,8 @@ Room::Room()
     setWidth(0);
     setJerryPos({0,0});
     setTomPos({0,0});
-    setNumFurniture(0);
-    setNumPaintPos(0);
+
+    dronePos = TomPos;
 }
 
 // set methods:
@@ -55,13 +54,14 @@ void Room::setTomPos(const Position& _TomPos)
 {
     TomPos = _TomPos;
 }
-void Room::setNumFurniture(const int& _numFurniture)
+void Room::moveDrone(const Position& newPos)
 {
-    numFurniture = _numFurniture;
+    dronePos.x += newPos.x;
+    dronePos.y += newPos.y;
 }
-void Room::setNumPaintPos(const int& _numPaintPos)
+void Room::paintPos()
 {
-    numPaintPos = _numPaintPos;
+    room[dronePos.x][dronePos.y] = 'p';
 }
 
 // get methods:
@@ -85,13 +85,9 @@ Position Room::getTomPos() const
 {
     return TomPos;
 }
-int Room::getNumFurniture() const
+Position Room::getDronePos() const
 {
-    return numFurniture;
-}
-int Room::getNumPaintPos() const
-{
-    return numPaintPos;
+    return dronePos;
 }
 
 // operators:
@@ -99,10 +95,10 @@ Room& Room::operator = (const Room& other)
 {
     lenght = other.lenght;
     width = other.width;
+
     JerryPos = other.JerryPos;
     TomPos = other.TomPos;
-    numFurniture = other.numFurniture;
-    numPaintPos = other.numPaintPos;
+    dronePos = other.dronePos;
 
     setRoom();
     for(int i = 0; i < lenght; ++i)

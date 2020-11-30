@@ -11,13 +11,11 @@ private:
     std::vector<std::vector<char>> room{};
     Position JerryPos;
     Position TomPos;
-    int numFurniture;
-    int numPaintPos;
+    Position dronePos;
 
 public:
     // constructors:
-    Room(const int& _lenght, const int& _width, const Position& _JerryPos, const Position& _TomPos,
-    const int& _numFurniture, const int& _numPaintPos);
+    Room(const int& _lenght, const int& _width, const Position& _JerryPos, const Position& _TomPos);
     Room();
 
     // set methods:
@@ -26,8 +24,8 @@ public:
     void setRoom();
     void setJerryPos(const Position& _JerryPos);
     void setTomPos(const Position& _TomPos);
-    void setNumFurniture(const int& _numFurniture);
-    void setNumPaintPos(const int& _numFurniture);
+    void moveDrone(const Position& newPos);
+    void paintPos();
 
     // get methods:
     int getLenght() const;
@@ -35,8 +33,7 @@ public:
     std::vector<std::vector<char>> getRoom() const;
     Position getJerryPos() const;
     Position getTomPos() const;
-    int getNumFurniture() const;
-    int getNumPaintPos() const;
+    Position getDronePos() const;
 
     // operators:
 

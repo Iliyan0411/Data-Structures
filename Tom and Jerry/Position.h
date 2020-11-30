@@ -1,5 +1,6 @@
 #ifndef POSITION_H  
 #define POSITION_H
+#include <iostream>
 
 
 struct Position
@@ -15,6 +16,11 @@ struct Position
         }
 
         return *this;
+    }
+
+    void print() const
+    {
+        std::cout << "(" << x << "," << y << ")\n";
     }
 };
 

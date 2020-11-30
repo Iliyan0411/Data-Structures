@@ -1,23 +1,19 @@
-#include <iostream>
-#include "Room.h"
+#include "Drone.h"
 
 int main()
 {
-   Room r1(3,3,{0,0},{2,2},0,0), r2, r3;
+    Room r(3,3,{0,0},{2,2});
+    Drone d(r);
 
-   r2 = r3 = r1;
+    d.getRoom().getDronePos().print();
 
-    std::cout << r2.getWidth() << std::endl;
-    std::cout << r2.getTomPos().y << std::endl;
+    d.W();
+    d.W();
+    d.N();
+    
 
-    for(int i = 0; i < r2.getLenght(); ++i)
-    {
-        for(int j = 0; j < r2.getWidth(); ++j)
-        {
-            std::cout << r2.getRoom()[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
+    d.getRoom().getDronePos().print();
+
 
     return 0;
 }
