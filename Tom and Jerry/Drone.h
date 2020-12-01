@@ -23,10 +23,10 @@ public:
     void increaseTurns();
 
     // moving:
-    void N();
-    void S();
-    void E();
-    void W();
+    Position N();
+    Position S();
+    Position E();
+    Position W();
     void P();
 };
 

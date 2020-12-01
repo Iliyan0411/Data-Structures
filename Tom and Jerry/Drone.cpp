@@ -29,19 +29,21 @@ void Drone::increaseTurns()
 }
 
 // drone moving:
-void Drone::N()
+Position Drone::N()
 {
     room.moveDrone({-1,0});
+
+    return room.getDronePos();
 }
-void Drone::S()
+Position Drone::S()
 {
     room.moveDrone({1,0});
 }
-void Drone::E()
+Position Drone::E()
 {
     room.moveDrone({0,1});
 }
-void Drone::W()
+Position Drone::W()
 {
     room.moveDrone({0,-1});
 }

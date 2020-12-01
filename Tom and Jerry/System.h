@@ -1,6 +1,7 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 #include "Drone.h"
+#include <exception>
 
 
 class System
