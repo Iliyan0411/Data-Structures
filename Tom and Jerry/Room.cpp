@@ -59,9 +59,9 @@ void Room::moveDrone(const Position& newPos)
     dronePos.x += newPos.x;
     dronePos.y += newPos.y;
 }
-void Room::paintPos()
+void Room::setPos(const char& c)
 {
-    room[dronePos.x][dronePos.y] = 'p';
+    room[dronePos.x][dronePos.y] = c;
 }
 
 // get methods:
@@ -73,7 +73,7 @@ int Room::getWidth() const
 {
     return width;
 }
-std::vector<std::vector<char>> Room::getRoom() const
+std::vector<std::vector<char>> Room::get_room() const
 {
     return room;
 }

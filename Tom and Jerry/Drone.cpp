@@ -1,9 +1,9 @@
 #include "Drone.h"
 
 //constructor:
-Drone::Drone(const Room& _r)
+Drone::Drone(const Room& _room)
 {
-    r = _r;
+    room = _room;
     painted = 0;
     turns = 0;
 }
@@ -19,7 +19,7 @@ int Drone::getTurns() const
 }
 Room Drone::getRoom() const
 {
-    return r;
+    return room;
 }
 
 // increase methods:
@@ -31,22 +31,22 @@ void Drone::increaseTurns()
 // drone moving:
 void Drone::N()
 {
-    r.moveDrone({-1,0});
+    room.moveDrone({-1,0});
 }
 void Drone::S()
 {
-    r.moveDrone({1,0});
+    room.moveDrone({1,0});
 }
 void Drone::E()
 {
-    r.moveDrone({0,1});
+    room.moveDrone({0,1});
 }
 void Drone::W()
 {
-    r.moveDrone({0,-1});
+    room.moveDrone({0,-1});
 }
 void Drone::P()
 {
-    r.paintPos();
+    room.setPos('p');
     ++painted;
 }

@@ -5,13 +5,13 @@
 class Drone
 {
 private:
-    Room r;
+    Room room;
     int painted;
     int turns;
 
 public:
     // constructor:
-    Drone(const Room& _r);
+    Drone(const Room& _room);
 
     // get methods:
     int getPainted() const;
