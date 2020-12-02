@@ -25,12 +25,12 @@ public:
     void setJerryPos(const Position& _JerryPos);
     void setTomPos(const Position& _TomPos);
     void moveDrone(const Position& newPos);
-    void paintPos();
+    void setPos(const char& c);
 
     // get methods:
     int getLenght() const;
     int getWidth() const;
-    std::vector<std::vector<char>> getRoom() const;
+    std::vector<std::vector<char>> get_room() const;
     Position getJerryPos() const;
     Position getTomPos() const;
     Position getDronePos() const;
