@@ -1,10 +1,10 @@
-#include "PathTree.h"
-#include <fstream>
+//#include "PathTree.h"
+//#include "Drone.h"
 
 
 int main()
 {
-   PTree t;
+   /*PTree t;
    std::queue<char> q, q1, q2, q3;
    q.push('N');
    q.push('N');
@@ -26,11 +26,6 @@ int main()
    q2.push('E');
    q2.push('N');
 
-   q3.push('N');
-   q3.push('N');
-   q3.push('E');
-   q3.push('W');
-
    t.add(q);
    t.add(q1);
    t.add(q2);
@@ -38,8 +33,9 @@ int main()
 
     std::ofstream out("viz.dot");
     t.viz(out);
-    out.close();
+    out.close();*/
 
+    //Drone d;
 
     return 0;
 }
