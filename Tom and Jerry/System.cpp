@@ -87,17 +87,71 @@ void System::convertToInstructions()
     }
 }
 
+void System::filterAllMinPaths()
+{
+    int min = allPaths[0].size();
+
+    for(int i = 1; i < allPaths.size(); i++)
+    {
+        if(allPaths[i].size() < min)
+        {
+            min = allPaths[i].size();
+        }
+    }
+
+    for(int i = 0; i < allPaths.size(); i++)
+    {
+        if(allPaths[i].size() == min)
+        {
+            allMinPaths.push_back(allPaths[i]);
+        }
+    }
+}
+
+void System::filterAllMinPathInstructions()
+{
+    int min = allPathInstr[0].size();
+
+    for(int i = 1; i < allPathInstr.size(); i++)
+    {
+        if(allPathInstr[i].size() < min)
+        {
+            min = allPathInstr[i].size();
+        }
+    }
+
+    for(int i = 0; i < allPathInstr.size(); i++)
+    {
+        if(allPathInstr[i].size() == min)
+        {
+            allMinPathInstr.push_back(allPathInstr[i]);
+        }
+    }
+}
+
 void System::run()
 {
     std::cout << "\t\t\tTOM AND JERRY\n";
     std::cout << "\t\t      ==================\n\n";
+    //============
 
     findPaths();
-
     convertToInstructions();
 
     filterAllMinPaths();
     filterAllMinPathInstructions();
 
-    buildTree(allPathInstr);
+    //=============
+    std::cout << "[1] View all possible paths\n";
+    std::cout << "[2] View all min paths\n\n";
+    std::cout << "Enter number(1-2):";
+    
+    int x;
+    do
+    {
+        std::cin >> x;
+    }while(x < 1 || x > 2);
+
+    if(x == 1) buildTree(allPathInstr);
+    if(x == 2) buildTree(allMinPathInstr);
 }
