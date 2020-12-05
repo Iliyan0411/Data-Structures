@@ -16,6 +16,7 @@ private:
     };
     node* root;
 
+    void clear(node* curr);
     void addHelper(std::queue<char> c, node*& curr);
     void printHelper(node* curr) const;
     void vizHelper(std::ostream& out, node* curr) const;
@@ -25,9 +26,9 @@ private:
 
 public:
     PTree();
+    ~PTree();
 
     void add(const std::queue<char>& c);
-    void print() const;
     void viz(std::ostream& out) const;
 };
 

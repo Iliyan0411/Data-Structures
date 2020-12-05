@@ -9,6 +9,26 @@ PTree::PTree()
     root = new node{'B', v};
 }
 
+PTree::~PTree()
+{
+    clear(root);
+}
+
+void PTree::clear(node* curr)
+{
+    if(!curr)
+    {
+        return;
+    }
+
+    clear(curr->instr[0]);
+    clear(curr->instr[1]);
+    clear(curr->instr[2]);
+    clear(curr->instr[3]);
+    clear(curr->instr[4]);
+
+    delete curr;
+}
 
 void PTree::moveTo(const char& c, node*& curr)
 {
@@ -130,29 +150,6 @@ void PTree::addHelper(std::queue<char> c, node*& curr)
                 break;
         }
     }    
-}
-
-void PTree::print() const
-{
-    printHelper(root);
-    std::cout << std::endl;    
-}
-
-void PTree::printHelper(node* curr) const
-{
-    if(!curr)
-    {
-        return;
-    }
-
-    printHelper(curr->instr[0]);
-    printHelper(curr->instr[1]);
-
-    std::cout << curr->data << " ";
-
-    printHelper(curr->instr[2]);
-    printHelper(curr->instr[3]);
-    printHelper(curr->instr[4]);
 }
 
 void PTree::viz(std::ostream& out) const

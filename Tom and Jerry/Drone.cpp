@@ -2,20 +2,22 @@
 
 Drone::Drone()
 {
+    turns = 0;
+    paintedPos = 0;
+
     std::ifstream in("parameters.txt");
 
     in >> roomWidth;
     in >> roomLenght;
     in.ignore();
 
-    setRoom();
+    buildRoom();
 
     int x, y;
     in >> x;
     in >> y;
     in.ignore();
 
-    room[x][y] = 'J';
     setGoalPos({x,y});
 
     in >> x;
@@ -74,13 +76,13 @@ Drone::Drone()
         in >> y;
         in.ignore();
 
-        room[x][y] = 'p';
+        room[x][y] = 'P';
     }
 
     in.close();
 }
 
-void Drone::setRoom()
+void Drone::buildRoom()
 {
     room.resize(roomLenght);
 
@@ -98,6 +100,11 @@ void Drone::setRoom()
     }
 }
 
+std::vector<std::vector<char>> Drone::getRoom() const
+{
+    return room;
+}
+
 void Drone::setCurrPos(const Position& pos)
 {
     currPos = pos;
@@ -108,27 +115,65 @@ void Drone::setGoalPos(const Position& pos)
     goalPos = pos;
 }
 
-void Drone::N()
+Position Drone::getCurrPos() const
 {
-
+    return currPos;
 }
 
-void Drone::S()
+Position Drone::getGoalPos() const
 {
-
+    return goalPos;
 }
 
-void Drone::E()
+bool Drone::correctPos() const
 {
-
+    return currPos.x >= 0 && currPos.y >= 0 && currPos.x < roomLenght && currPos.y < roomWidth;
 }
 
-void Drone::W()
+void Drone::setRoom(const char& c)
 {
+    room[currPos.x][currPos.y] = c;
+}
 
+int Drone::getRoomLenght() const
+{
+    return roomLenght;
+}
+
+int Drone::getRoomWidth() const
+{
+    return roomWidth;
+}
+
+Drone& Drone::N()
+{
+    currPos.x -= 1;
+
+    return *this;
+}
+
+Drone& Drone::S()
+{
+    currPos.x += 1;
+
+    return *this;
+}
+
+Drone& Drone::E()
+{
+    currPos.y += 1;
+
+    return *this;
+}
+
+Drone& Drone::W()
+{
+    currPos.y -= 1;
+
+    return *this;
 }
 
 void Drone::P()
 {
-
+    paintedPos++;
 }

@@ -15,17 +15,26 @@ private:
     int turns;
     int paintedPos;
 
-public:
-    Drone();
-
-    void setRoom();
+    void buildRoom();
     void setCurrPos(const Position& pos);
     void setGoalPos(const Position& pos);
 
-    void N();
-    void S();
-    void E();
-    void W();
+public:
+    Drone();    
+
+    Position getCurrPos() const;
+    Position getGoalPos() const;
+    std::vector<std::vector<char>> getRoom() const;
+    bool correctPos() const;
+
+    void setRoom(const char& c);
+    int getRoomLenght() const;
+    int getRoomWidth() const;
+
+    Drone& N();
+    Drone& S();
+    Drone& E();
+    Drone& W();
     void P();
 };
 

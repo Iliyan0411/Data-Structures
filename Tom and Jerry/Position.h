@@ -18,6 +18,11 @@ struct Position
         return *this;
     }
 
+    bool operator == (const Position& other)
+    {
+        return x == other.x && y == other.y;
+    }
+
     void set(const int& _x, const int& _y)
     {
         x = _x;
@@ -26,7 +31,7 @@ struct Position
 
     void print() const
     {
-        std::cout << "(" << x << "," << y << ")\n";
+        std::cout << "(" << x << "," << y << ")\t";
     }
 };
 
