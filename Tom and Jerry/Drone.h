@@ -20,7 +20,7 @@ private:
     void setGoalPos(const Position& pos);
 
 public:
-    Drone();    
+    Drone();
 
     Position getCurrPos() const;
     Position getGoalPos() const;

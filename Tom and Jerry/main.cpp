@@ -1,11 +1,13 @@
 #include "System.h"
 
 
+int PTree::indexCounter = 0;
+
 int main()
 {
-    System s;
-    
-    s.run();
+    System system;
+    system.run();
+
 
     return 0;
 }

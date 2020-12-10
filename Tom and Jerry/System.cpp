@@ -3,12 +3,12 @@
 
 void System::buildTree(const std::vector<std::queue<char>>& v)
 {
-    PTree tree;
-
     for(std::queue<char> q : v)
     {
         tree.add(q);
     }
+
+    tree.createLeafIndex();
 
     std::ofstream out("viz.dot");
     tree.viz(out);
@@ -129,29 +129,49 @@ void System::filterAllMinPathInstructions()
     }
 }
 
-void System::run()
+void System::load()
 {
-    std::cout << "\t\t\tTOM AND JERRY\n";
-    std::cout << "\t\t      ==================\n\n";
-    //============
-
     findPaths();
     convertToInstructions();
 
     filterAllMinPaths();
     filterAllMinPathInstructions();
+}
 
-    //=============
+void System::run()
+{
+    load();
+
+    //============
+    std::cout << "\t\t\tTOM AND JERRY\n";
+    std::cout << "\t\t      ==================\n\n";
+
     std::cout << "[1] View all possible paths\n";
     std::cout << "[2] View all min paths\n\n";
-    std::cout << "Enter number(1-2):";
+    //============
     
     int x;
     do
     {
+        std::cout << "Enter number(1-2): ";
         std::cin >> x;
     }while(x < 1 || x > 2);
 
     if(x == 1) buildTree(allPathInstr);
     if(x == 2) buildTree(allMinPathInstr);
+
+    PTree::indexCounter--;
+    std::cout << "\nChoose path: (0 - " << PTree::indexCounter << ")\n";
+
+    do{
+        std::cout << "Enter number: ";
+        std::cin >> x;
+    }while(x < 0 || x > PTree::indexCounter);
+
+    std::string path = tree.wantedPath(x);
+    
+    for(char c : path)
+    {
+        std::cout << c << "->";
+    }std::cout << std::endl;
 }

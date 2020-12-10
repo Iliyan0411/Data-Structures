@@ -7,7 +7,8 @@
 class System
 {
 private:
-    Drone drone;
+    PTree tree{};
+    Drone drone{};
     int paths;
     int minPaths;
     std::vector<std::vector<Position>> allPaths{};
@@ -21,6 +22,7 @@ private:
     void convertToInstructions();
     void filterAllMinPaths();
     void filterAllMinPathInstructions();
+    void load();
 
 public:
     System() : paths(0), minPaths(0) {}

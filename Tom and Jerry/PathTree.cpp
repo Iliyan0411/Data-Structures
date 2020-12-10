@@ -51,17 +51,12 @@ bool PTree::hasSymbolChild(const char& c, node* curr) const
     return false;
 }
 
-bool PTree::hasChild(node* curr) const
-{
-    return curr->instr[0] || curr->instr[1] || curr->instr[2] || curr->instr[3] || curr->instr[4];
-}
-
 void PTree::add(const std::queue<char>& q)
 {
    std::queue<char> temp = q;
    node* curr = root;
 
-   if(hasChild(curr))
+   if(!isLeaf(curr))
    {
        moveTo(q.front(), curr);
 
@@ -113,11 +108,11 @@ void PTree::add(const std::queue<char>& q)
     addHelper(temp, curr);
 }
 
-void PTree::addHelper(std::queue<char> c, node*& curr)
+void PTree::addHelper(std::queue<char> q, node*& curr)
 {
     if(curr == nullptr)
     {
-        if(c.empty())
+        if(q.empty())
         {
             return;
         }
@@ -125,28 +120,28 @@ void PTree::addHelper(std::queue<char> c, node*& curr)
         std::vector<node*> v{nullptr};
         v.resize(5);
 
-        curr = new node{c.front(), v};
-        c.pop();
+        curr = new node{q.front(), v};
+        q.pop();
     }
 
-    if(!c.empty())
+    if(!q.empty())
     {
-        switch(c.front())
+        switch(q.front())
         {
             case 'N': 
-                addHelper(c, curr->instr[0]);
+                addHelper(q, curr->instr[0]);
                 break;
             case 'S': 
-                addHelper(c, curr->instr[1]);
+                addHelper(q, curr->instr[1]);
                 break;
             case 'E': 
-                addHelper(c, curr->instr[2]);
+                addHelper(q, curr->instr[2]);
                 break;
             case 'W': 
-                addHelper(c, curr->instr[3]);
+                addHelper(q, curr->instr[3]);
                 break;
             case 'P': 
-                addHelper(c, curr->instr[4]);
+                addHelper(q, curr->instr[4]);
                 break;
         }
     }    
@@ -194,4 +189,108 @@ void PTree::vizHelper(std::ostream& out, node* curr) const
         {
             out << (long)curr << "->" << (long)curr->instr[4]<< ";\n";
         }
+}
+
+void PTree::createLeafIndex()
+{
+    createLeafIndexHelper(root);
+}
+
+bool PTree::isLeaf(node* curr) const
+{
+    for(int i = 0; i < 5; i++)
+    {
+        if(curr->instr[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void PTree::createLeafIndexHelper(node* curr)
+{
+    if(!curr)
+    {
+        return;
+    }
+
+    if(isLeaf(curr))
+    {
+        curr->index = PTree::indexCounter;
+        PTree::indexCounter++;
+    }
+    else curr->index = -1;
+
+    createLeafIndexHelper(curr->instr[0]);
+    createLeafIndexHelper(curr->instr[1]);
+    createLeafIndexHelper(curr->instr[2]);
+    createLeafIndexHelper(curr->instr[3]);
+    createLeafIndexHelper(curr->instr[4]);
+}
+
+void PTree::print() const
+{
+    printHelper(root);
+    std::cout << std::endl;
+}
+
+void PTree::printHelper(node* curr) const
+{
+    if(!curr)
+    {
+        return;
+    }
+
+    std::cout << "(" << curr->data << "->" << curr->index << ") ";
+
+    printHelper(curr->instr[0]);
+    printHelper(curr->instr[1]);
+    printHelper(curr->instr[2]);
+    printHelper(curr->instr[3]);
+    printHelper(curr->instr[4]);
+}
+
+std::string PTree::wantedPath(const int& id) const
+{
+    std::string path;
+
+    wantedPathHelper(id, root, path);
+
+    return path;
+}
+
+void PTree::wantedPathHelper(const int& id, node* curr, std::string& str) const
+{
+    if(!curr || !member(id, curr) || (isLeaf(curr) && curr->index != id))
+    {
+        return;
+    }
+
+    if(curr->index == id)
+    {
+        str.push_back(curr->data);
+        return;
+    }
+    if(member(id, curr))
+    {
+        str.push_back(curr->data);
+    }
+
+    wantedPathHelper(id, curr->instr[0], str);
+    wantedPathHelper(id, curr->instr[1], str);
+    wantedPathHelper(id, curr->instr[2], str);
+    wantedPathHelper(id, curr->instr[3], str);
+    wantedPathHelper(id, curr->instr[4], str);
+}
+
+bool PTree::member(const int& id, node* curr) const
+{
+    return curr && (curr->index == id ||
+                    member(id, curr->instr[0]) ||
+                    member(id, curr->instr[1]) ||
+                    member(id, curr->instr[2]) ||
+                    member(id, curr->instr[3]) ||
+                    member(id, curr->instr[4]));
 }
