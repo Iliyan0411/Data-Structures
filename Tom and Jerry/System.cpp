@@ -44,7 +44,7 @@ void System::findPathsHelper(Position curr, Position goal, std::vector<Position>
         findPathsHelper({curr.x-1, curr.y}, goal, v, room);
         findPathsHelper({curr.x+1, curr.y}, goal, v, room);
         findPathsHelper({curr.x, curr.y+1}, goal, v, room);
-        findPathsHelper({curr.x-1, curr.y-1}, goal, v, room);
+        findPathsHelper({curr.x, curr.y-1}, goal, v, room);
 
         room[curr.x][curr.y] = '0';
     }
@@ -52,33 +52,43 @@ void System::findPathsHelper(Position curr, Position goal, std::vector<Position>
     v.resize(len);
 }
 
-void System::convertToInstructions()
+void System::convertToInstructions(const std::vector<std::vector<Position>>& paths, std::vector<std::queue<char>>& instructions)
 {
     std::queue<char> q;
 
-    for(int i = 0; i < allPaths.size(); i++)
+    for(int i = 0; i < paths.size(); i++)
     {
-        for(int j = 1; j < allPaths[i].size(); j++)
+        for(int j = 1; j < paths[i].size(); j++)
         {
-            if(allPaths[i][j].x + 1 == allPaths[i][j-1].x && allPaths[i][j].y == allPaths[i][j-1].y)
+            if(paths[i][j].x + 1 == paths[i][j-1].x && paths[i][j].y == paths[i][j-1].y)
             {
                 q.push('N');
+
             }
-            if(allPaths[i][j].x - 1 == allPaths[i][j-1].x && allPaths[i][j].y == allPaths[i][j-1].y)
+            else if(paths[i][j].x - 1 == paths[i][j-1].x && paths[i][j].y == paths[i][j-1].y)
             {
                 q.push('S');
             }
-            if(allPaths[i][j].x == allPaths[i][j-1].x && allPaths[i][j].y - 1 == allPaths[i][j-1].y)
+            else if(paths[i][j].x == paths[i][j-1].x && paths[i][j].y - 1 == paths[i][j-1].y)
             {
                 q.push('E');
             }
-            if(allPaths[i][j].x == allPaths[i][j-1].x && allPaths[i][j].y + 1 == allPaths[i][j-1].y)
+            else if(paths[i][j].x == paths[i][j-1].x && paths[i][j].y + 1 == paths[i][j-1].y)
             {
                 q.push('W');
             }
+
+            for(Position p : drone.getPaintPoses())
+            {
+                if (p == paths[i][j])
+                {
+                    q.push('P');
+                    break;
+                }
+            }
         }
 
-        allPathInstr.push_back(q);
+        instructions.push_back(q);
 
         while(!q.empty())
         {
@@ -89,7 +99,7 @@ void System::convertToInstructions()
 
 void System::filterAllMinPaths()
 {
-    int min = allPaths[0].size();
+     int min = allPaths[0].size();
 
     for(int i = 1; i < allPaths.size(); i++)
     {
@@ -108,35 +118,54 @@ void System::filterAllMinPaths()
     }
 }
 
-void System::filterAllMinPathInstructions()
-{
-    int min = allPathInstr[0].size();
-
-    for(int i = 1; i < allPathInstr.size(); i++)
-    {
-        if(allPathInstr[i].size() < min)
-        {
-            min = allPathInstr[i].size();
-        }
-    }
-
-    for(int i = 0; i < allPathInstr.size(); i++)
-    {
-        if(allPathInstr[i].size() == min)
-        {
-            allMinPathInstr.push_back(allPathInstr[i]);
-        }
-    }
-}
-
 void System::load()
 {
     findPaths();
-    convertToInstructions();
+    
+    convertToInstructions(allPaths, allPathInstr);
 
     filterAllMinPaths();
-    filterAllMinPathInstructions();
+    convertToInstructions(allMinPaths, allMinPathInstr);
 }
+
+void System::setTurns(const std::string& path)
+{
+    for(int i = 1; i < path.size(); i++)
+    {
+       if(path[i] != path[i - 1] && path[i] != 'P' && path[i - 1] != 'P')
+       {
+           turns++;
+       }
+       else if(path[i - 1] == 'P' && path[i] != path[i - 2])
+       {
+           turns++;
+       }
+    }
+    turns--;
+}
+
+void System::setPaintedPlaces(const std::string& path)
+{
+    for(char c : path)
+    {
+        if(c == 'P')
+        {
+            paintedPlaces++;
+        }
+    }
+}
+
+void System::setPathLenght(const std::string& path)
+{
+    for(int i = 1; i < path.size(); i++)
+    {
+        if(path[i] != 'P')
+        {
+            pathLenght++;
+        }
+    }
+}
+
 
 void System::run()
 {
@@ -150,6 +179,7 @@ void System::run()
     std::cout << "[2] View all min paths\n\n";
     //============
     
+    //============
     int x;
     do
     {
@@ -159,7 +189,9 @@ void System::run()
 
     if(x == 1) buildTree(allPathInstr);
     if(x == 2) buildTree(allMinPathInstr);
+    //============
 
+    //============
     PTree::indexCounter--;
     std::cout << "\nChoose path: (0 - " << PTree::indexCounter << ")\n";
 
@@ -169,9 +201,21 @@ void System::run()
     }while(x < 0 || x > PTree::indexCounter);
 
     std::string path = tree.wantedPath(x);
+    setTurns(path);
+    setPaintedPlaces(path);
+    setPathLenght(path);
+    //============
     
+
+    //============
+    std::cout << std::endl;
     for(char c : path)
     {
         std::cout << c << "->";
-    }std::cout << std::endl;
+    }
+    std::cout << "Jerry" << std::endl;
+
+    std::cout << "# Path lenght: " << pathLenght << std::endl;
+    std::cout << "# Turns: " << turns << std::endl;
+    std::cout << "# Painted places: " << paintedPlaces << std::endl;
 }

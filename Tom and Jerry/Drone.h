@@ -12,8 +12,7 @@ private:
     int roomLenght, roomWidth;
     Position currPos;
     Position goalPos;
-    int turns;
-    int paintedPos;
+    std::vector<Position> paintPoses{};
 
     void buildRoom();
     void setCurrPos(const Position& pos);
@@ -24,18 +23,16 @@ public:
 
     Position getCurrPos() const;
     Position getGoalPos() const;
+
     std::vector<std::vector<char>> getRoom() const;
+    std::vector<Position> getPaintPoses() const;
+
     bool correctPos() const;
 
     void setRoom(const char& c);
+    
     int getRoomLenght() const;
     int getRoomWidth() const;
-
-    Drone& N();
-    Drone& S();
-    Drone& E();
-    Drone& W();
-    void P();
 };
 
 #endif

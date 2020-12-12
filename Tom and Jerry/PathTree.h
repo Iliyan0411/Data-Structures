@@ -22,11 +22,11 @@ private:
     void addHelper(std::queue<char> c, node*& curr);
     void vizHelper(std::ostream& out, node* curr) const;
     void moveTo(const char& c, node*& curr);
-    bool hasSymbolChild(const char& c, node* curr) const;
     void createLeafIndexHelper(node* curr);
-    bool isLeaf(node* curr) const;
-    void printHelper(node* curr) const;
     void wantedPathHelper(const int& id, node* curr, std::string& str) const;
+
+    bool hasSymbolChild(const char& c, node* curr) const;
+    bool isLeaf(node* curr) const;
     bool member(const int& id, node* curr) const;
 
 public:
@@ -38,7 +38,7 @@ public:
     void add(const std::queue<char>& c);
     void viz(std::ostream& out) const;
     void createLeafIndex();
-    void print() const;
+    
     std::string wantedPath(const int& id) const;
 };
 

@@ -230,28 +230,6 @@ void PTree::createLeafIndexHelper(node* curr)
     createLeafIndexHelper(curr->instr[4]);
 }
 
-void PTree::print() const
-{
-    printHelper(root);
-    std::cout << std::endl;
-}
-
-void PTree::printHelper(node* curr) const
-{
-    if(!curr)
-    {
-        return;
-    }
-
-    std::cout << "(" << curr->data << "->" << curr->index << ") ";
-
-    printHelper(curr->instr[0]);
-    printHelper(curr->instr[1]);
-    printHelper(curr->instr[2]);
-    printHelper(curr->instr[3]);
-    printHelper(curr->instr[4]);
-}
-
 std::string PTree::wantedPath(const int& id) const
 {
     std::string path;

@@ -1,10 +1,8 @@
 #include "Drone.h"
 
+
 Drone::Drone()
 {
-    turns = 0;
-    paintedPos = 0;
-
     std::ifstream in("parameters.txt");
 
     in >> roomWidth;
@@ -77,6 +75,7 @@ Drone::Drone()
         in.ignore();
 
         room[x][y] = 'P';
+        paintPoses.push_back({x,y});
     }
 
     in.close();
@@ -145,35 +144,7 @@ int Drone::getRoomWidth() const
     return roomWidth;
 }
 
-Drone& Drone::N()
+std::vector<Position> Drone::getPaintPoses() const
 {
-    currPos.x -= 1;
-
-    return *this;
-}
-
-Drone& Drone::S()
-{
-    currPos.x += 1;
-
-    return *this;
-}
-
-Drone& Drone::E()
-{
-    currPos.y += 1;
-
-    return *this;
-}
-
-Drone& Drone::W()
-{
-    currPos.y -= 1;
-
-    return *this;
-}
-
-void Drone::P()
-{
-    paintedPos++;
+    return paintPoses;
 }
