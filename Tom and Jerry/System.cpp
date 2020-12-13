@@ -166,41 +166,133 @@ void System::setPathLenght(const std::string& path)
     }
 }
 
+int System::paintCount(std::queue<char> q) const
+{
+    int count = 0;
+    while(!q.empty())
+    {
+        if(q.front() == 'P')
+        {
+            count++;
+        }
+
+        q.pop();
+    }
+
+    return count;
+}
+
+int System::turnsCount(std::queue<char> q) const
+{
+    int count = 0;
+
+    std::string str;
+    while(!q.empty())
+    {
+        str.push_back(q.front());
+        q.pop();
+    }
+
+    for(int i = 1; i < str.size(); i++)
+    {
+       if(str[i] != str[i - 1] && str[i] != 'P' && str[i - 1] != 'P')
+       {
+           count++;
+       }
+       else if(str[i - 1] == 'P' && str[i] != str[i - 2])
+       {
+           count++;
+       }
+    }
+    count--;
+
+
+    return count;
+}
+
+std::vector<std::queue<char>> System::MAXpaintMINturns()
+{
+    int paintMax = paintCount(allPathInstr[0]);
+    std::vector<int> indexes;
+
+    for(int i = 1; i < allPathInstr.size(); i++)
+    {
+        if(paintCount(allPathInstr[i]) > paintMax)
+        {
+            paintMax = paintCount(allPathInstr[i]);
+        }
+    }
+
+    for(int i = 0; i < allPathInstr.size(); i++)
+    {
+        if(paintCount(allPathInstr[i]) == paintMax)
+        {
+            indexes.push_back(i);
+        }
+    }
+
+    int turnsMin = turnsCount(allPathInstr[indexes[0]]);
+
+    for(int i = 1; i < indexes.size(); i++)
+    {
+        if(turnsCount(allPathInstr[indexes[i]]) < turnsMin)
+        {
+            turnsMin = turnsCount(allPathInstr[indexes[i]]);
+        }
+    }
+
+
+    std::vector<std::queue<char>> result;
+
+    for(int i = 0; i < indexes.size(); i++)
+    {
+        if(turnsCount(allPathInstr[indexes[i]]) == turnsMin)
+        {
+            result.push_back(allPathInstr[indexes[i]]);
+        }
+    }
+
+    return result;
+}
 
 void System::run()
 {
     load();
 
     //============
-    std::cout << "\t\t\tTOM AND JERRY\n";
-    std::cout << "\t\t      ==================\n\n";
+    std::cout << "\n\t\t\tTOM AND JERRY\n";
+    std::cout << "\t\t      =================\n\n";
 
     std::cout << "[1] View all possible paths\n";
-    std::cout << "[2] View all min paths\n\n";
+    std::cout << "[2] View all min paths\n";
+    std::cout << "[3] View path with maximum painted places and minimum made turns\n\n";
     //============
     
     //============
-    int x;
+    int choose;
     do
     {
-        std::cout << "Enter number(1-2): ";
-        std::cin >> x;
-    }while(x < 1 || x > 2);
+        std::cout << "Enter number(1-3): ";
+        std::cin >> choose;
+    }while(choose < 1 || choose > 3);
 
-    if(x == 1) buildTree(allPathInstr);
-    if(x == 2) buildTree(allMinPathInstr);
+    if(choose == 1) buildTree(allPathInstr);
+    if(choose == 2) buildTree(allMinPathInstr);
+    if(choose == 3) buildTree(MAXpaintMINturns());
     //============
 
     //============
     PTree::indexCounter--;
     std::cout << "\nChoose path: (0 - " << PTree::indexCounter << ")\n";
 
+    int id;
     do{
         std::cout << "Enter number: ";
-        std::cin >> x;
-    }while(x < 0 || x > PTree::indexCounter);
+        std::cin >> id;
+    }while(id < 0 || id > PTree::indexCounter);
 
-    std::string path = tree.wantedPath(x);
+
+    std::string path = tree.wantedPath(id);
     setTurns(path);
     setPaintedPlaces(path);
     setPathLenght(path);

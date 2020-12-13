@@ -26,18 +26,23 @@ private:
     void findPaths(); // намира всички пътища от Том до Джери
     void findPathsHelper(Position curr, Position goal, std::vector<Position>& v, std::vector<std::vector<char>> room);
 
-    // конвертира пътищата от позиции в пътища от инструкци
+    // конвертира пътищата от позиции, в пътища от инструкци
     void convertToInstructions(const std::vector<std::vector<Position>>& paths, std::vector<std::queue<char>>& instructions);
     void filterAllMinPaths(); // намира най-късите пътища
     void load();
     void setTurns(const std::string& path);
     void setPaintedPlaces(const std::string& path);
     void setPathLenght(const std::string& path);
+   
+    std::vector<std::queue<char>> MAXpaintMINturns();
+
+    int paintCount(std::queue<char> q) const;
+    int turnsCount(std::queue<char> q) const;
 
 public:
     System() : paintedPlaces(0), turns(0), pathLenght(0) {}
 
-    void run(); // обща функция изпълняваща всички функционалности на проекта
+    void run(); // изпълнява всички функционалности на проекта
 };
 
 #endif
