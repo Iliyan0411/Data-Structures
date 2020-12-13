@@ -9,8 +9,7 @@ struct Position
 
     Position& operator = (const Position& other)
     {
-        if(this != &other)
-        {
+        if(this != &other) {
             x = other.x;
             y = other.y;
         }
