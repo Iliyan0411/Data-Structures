@@ -141,7 +141,7 @@ void System::setTurns(const std::string& path)
            turns++;
        }
     }
-    turns--;
+    if(turns > 0) turns--;
 }
 
 void System::setPaintedPlaces(const std::string& path)
