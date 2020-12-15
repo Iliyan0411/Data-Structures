@@ -31,7 +31,7 @@ private:
     bool member(const int& id, node* curr) const; // проверява дали curr съдържа в поддървото си връх с индекс id
 
 public:
-    static int indexCounter; // статична променлива за помагаща за индексиране на листата
+    static int indexCounter; // статична променлива помагаща за индексиране на листата
 
     PTree();
     ~PTree();

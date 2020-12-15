@@ -11,18 +11,31 @@ void System::buildTree(const std::vector<std::queue<char>>& v)
     tree.createLeafIndex();
 
     std::ofstream out("viz.dot");
+    if(!out){
+        throw std::runtime_error ("File error");
+    }
+
     tree.viz(out);
+
+    if(!out){
+        throw std::runtime_error ("File error");
+    }
+    
     out.close();
 }
 
-void System::findPaths()
+std::vector<std::vector<Position>> System::findPaths()
 {
     std::vector<Position> v{};
+    std::vector<std::vector<Position>> allPaths{};
 
-    findPathsHelper(drone.getCurrPos(), drone.getGoalPos(), v, drone.getRoom());
+    findPathsHelper(drone.getCurrPos(), drone.getGoalPos(), v, drone.getRoom(), allPaths);
+
+    return allPaths;
 }
 
-void System::findPathsHelper(Position curr, Position goal, std::vector<Position>& v, std::vector<std::vector<char>> room)
+void System::findPathsHelper(Position curr, Position goal, std::vector<Position>& v, std::vector<std::vector<char>> room,
+                            std::vector<std::vector<Position>>& allPaths)
 {
     if(curr.x < 0 || curr.y < 0 || curr.x >= drone.getRoomLenght() || curr.y >= drone.getRoomWidth() ||
         room[curr.x][curr.y] == '1')
@@ -41,10 +54,10 @@ void System::findPathsHelper(Position curr, Position goal, std::vector<Position>
     {
         room[curr.x][curr.y] = '1';
 
-        findPathsHelper({curr.x-1, curr.y}, goal, v, room);
-        findPathsHelper({curr.x+1, curr.y}, goal, v, room);
-        findPathsHelper({curr.x, curr.y+1}, goal, v, room);
-        findPathsHelper({curr.x, curr.y-1}, goal, v, room);
+        findPathsHelper({curr.x-1, curr.y}, goal, v, room, allPaths);
+        findPathsHelper({curr.x+1, curr.y}, goal, v, room, allPaths);
+        findPathsHelper({curr.x, curr.y+1}, goal, v, room, allPaths);
+        findPathsHelper({curr.x, curr.y-1}, goal, v, room, allPaths);
 
         room[curr.x][curr.y] = '0';
     }
@@ -97,7 +110,7 @@ void System::convertToInstructions(const std::vector<std::vector<Position>>& pat
     }
 }
 
-void System::filterAllMinPaths()
+std::vector<std::vector<Position>> System::filterAllMinPaths(const std::vector<std::vector<Position>>& allPaths)
 {
      int min = allPaths[0].size();
 
@@ -109,6 +122,7 @@ void System::filterAllMinPaths()
         }
     }
 
+    std::vector<std::vector<Position>> allMinPaths;
     for(int i = 0; i < allPaths.size(); i++)
     {
         if(allPaths[i].size() == min)
@@ -116,16 +130,16 @@ void System::filterAllMinPaths()
             allMinPaths.push_back(allPaths[i]);
         }
     }
+
+    return allMinPaths;
 }
 
 void System::load()
 {
-    findPaths();
+    std::vector<std::vector<Position>> buffer = findPaths();
     
-    convertToInstructions(allPaths, allPathInstr);
-
-    filterAllMinPaths();
-    convertToInstructions(allMinPaths, allMinPathInstr);
+    convertToInstructions(buffer, allPathInstr);
+    convertToInstructions(filterAllMinPaths(buffer), allMinPathInstr);
 }
 
 void System::setTurns(const std::string& path)
@@ -265,7 +279,7 @@ void System::run()
 
     std::cout << "[1] View all possible paths\n";
     std::cout << "[2] View all min paths\n";
-    std::cout << "[3] View path with maximum painted places and minimum made turns\n\n";
+    std::cout << "[3] View paths with maximum painted places and minimum turns\n\n";
     //============
     
     //============

@@ -171,23 +171,28 @@ void PTree::vizHelper(std::ostream& out, node* curr) const
     
         if(curr->instr[0] != nullptr)
         {
-            out << (long)curr << "->" << (long)curr->instr[0]<< ";\n";
+            if(curr->instr[0]->index == -1) out << (long)curr << "->" << (long)curr->instr[0]<< ";\n";
+            else out << (long)curr << "->" << (long)curr->instr[0]<< "[label=" << curr->instr[0]->index << "];\n";
         }
         if(curr->instr[1] != nullptr)
         {
-            out << (long)curr << "->" << (long)curr->instr[1]<< ";\n";
+           if(curr->instr[1]->index == -1) out << (long)curr << "->" << (long)curr->instr[1]<< ";\n";
+           else out << (long)curr << "->" << (long)curr->instr[1]<< "[label=" << curr->instr[1]->index << "];\n";
         }
         if(curr->instr[2] != nullptr)
         {
-            out << (long)curr << "->" << (long)curr->instr[2]<< ";\n";
+            if(curr->instr[2]->index == -1) out << (long)curr << "->" << (long)curr->instr[2]<< ";\n";
+            else out << (long)curr << "->" << (long)curr->instr[2]<< "[label=" << curr->instr[2]->index << "];\n";
         }
         if(curr->instr[3] != nullptr)
         {
-            out << (long)curr << "->" << (long)curr->instr[3]<< ";\n";
+            if(curr->instr[3]->index == -1) out << (long)curr << "->" << (long)curr->instr[3]<< ";\n";
+            else out << (long)curr << "->" << (long)curr->instr[3]<< "[label=" << curr->instr[3]->index << "];\n";
         }
         if(curr->instr[4] != nullptr)
         {
-            out << (long)curr << "->" << (long)curr->instr[4]<< ";\n";
+            if(curr->instr[4]->index == -1) out << (long)curr << "->" << (long)curr->instr[4]<< ";\n";
+            else out << (long)curr << "->" << (long)curr->instr[4]<< "[label=" << curr->instr[4]->index << "];\n";
         }
 }
 

@@ -13,8 +13,6 @@ private:
 
     PTree tree{};
     Drone drone{};
-    std::vector<std::vector<Position>> allPaths{}; // съдържа всички пътища от Том до Джери
-    std::vector<std::vector<Position>> allMinPaths{}; // съдържа само най-късите пътища от Том до Джери
     
     std::vector<std::queue<char>> allPathInstr{}; // съдържа всички пътища от Том до Джери под формата на инструкции, определящи 
                                                   // в коя посока да се движим 
@@ -23,12 +21,13 @@ private:
                                                   // в коя посока да се движим
 
     void buildTree(const std::vector<std::queue<char>>& v);
-    void findPaths(); // намира всички пътища от Том до Джери
-    void findPathsHelper(Position curr, Position goal, std::vector<Position>& v, std::vector<std::vector<char>> room);
+    std::vector<std::vector<Position>> findPaths(); // намира всички пътища от Том до Джери
+    void findPathsHelper(Position curr, Position goal, std::vector<Position>& v, std::vector<std::vector<char>> room,
+                        std::vector<std::vector<Position>>&);
 
     // конвертира пътищата от позиции, в пътища от инструкци
     void convertToInstructions(const std::vector<std::vector<Position>>& paths, std::vector<std::queue<char>>& instructions);
-    void filterAllMinPaths(); // намира най-късите пътища
+    std::vector<std::vector<Position>> filterAllMinPaths(const std::vector<std::vector<Position>>&); // намира най-късите пътища
     void load();
     void setTurns(const std::string& path);
     void setPaintedPlaces(const std::string& path);

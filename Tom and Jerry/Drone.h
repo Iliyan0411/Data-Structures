@@ -26,10 +26,6 @@ public:
 
     std::vector<std::vector<char>> getRoom() const;
     std::vector<Position> getPaintPoses() const;
-
-    bool correctPos() const;
-
-    void setRoom(const char& c);
     
     int getRoomLenght() const;
     int getRoomWidth() const;

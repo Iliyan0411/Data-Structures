@@ -1,9 +1,15 @@
 #include "Drone.h"
+#include <exception>
 
 
 Drone::Drone()
 {
     std::ifstream in("parameters.txt");
+
+    if(!in){
+        throw std::runtime_error ("File error");
+    }
+
 
     in >> roomWidth;
     in >> roomLenght;
@@ -78,6 +84,10 @@ Drone::Drone()
         paintPoses.push_back({x,y});
     }
 
+    if(!in){
+        throw std::runtime_error ("File error");
+    }
+
     in.close();
 }
 
@@ -122,16 +132,6 @@ Position Drone::getCurrPos() const
 Position Drone::getGoalPos() const
 {
     return goalPos;
-}
-
-bool Drone::correctPos() const
-{
-    return currPos.x >= 0 && currPos.y >= 0 && currPos.x < roomLenght && currPos.y < roomWidth;
-}
-
-void Drone::setRoom(const char& c)
-{
-    room[currPos.x][currPos.y] = c;
 }
 
 int Drone::getRoomLenght() const

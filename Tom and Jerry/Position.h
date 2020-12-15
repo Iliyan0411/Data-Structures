@@ -21,17 +21,6 @@ struct Position
     {
         return x == other.x && y == other.y;
     }
-
-    void set(const int& _x, const int& _y)
-    {
-        x = _x;
-        y = _y;
-    }
-
-    void print() const
-    {
-        std::cout << "(" << x << "," << y << ")\t";
-    }
 };
 
 
