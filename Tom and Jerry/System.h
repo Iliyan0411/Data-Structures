@@ -20,7 +20,7 @@ private:
 
     void convertToInstructions(const std::vector<std::vector<Position>>&, std::vector<std::queue<char>>&);
     std::vector<std::vector<Position>> filterAllMinPaths(const std::vector<std::vector<Position>>&);
-   
+
     std::vector<std::queue<char>> MAXpaintMINturns();
     int paintCount(std::queue<char>) const;
     int turnsCount(std::queue<char>) const;

@@ -19,7 +19,7 @@ private:
     void setGoalPos(const Position&);
 
 public:
-    Drone(); // тук се четат входните данни от файла
+    Drone();
 
     Position getCurrPos() const;
     Position getGoalPos() const;

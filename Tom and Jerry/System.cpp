@@ -289,7 +289,7 @@ void System::run()
     std::cout << "\n\t\t\tTOM AND JERRY\n";
     std::cout << "\t\t      =================\n\n";
 
-    std::cout << "[1] View all possible paths\n";
+    std::cout << "[1] View all paths\n";
     std::cout << "[2] View all min paths\n";
     std::cout << "[3] View paths with maximum painted places and minimum turns\n\n";
     //============
