@@ -26,8 +26,8 @@ void System::buildTree(const std::vector<std::queue<char>>& v)
 
 std::vector<std::vector<Position>> System::findPaths()
 {
-    std::vector<Position> v{};
-    std::vector<std::vector<Position>> allPaths{};
+    std::vector<Position> v;
+    std::vector<std::vector<Position>> allPaths;
 
     findPathsHelper(drone.getCurrPos(), drone.getGoalPos(), v, drone.getRoom(), allPaths);
 
@@ -142,8 +142,10 @@ void System::load()
     convertToInstructions(filterAllMinPaths(buffer), allMinPathInstr);
 }
 
-void System::setTurns(const std::string& path)
+int System::setTurns(const std::string& path)
 {
+    int turns = 0;
+
     for(int i = 1; i < path.size(); i++)
     {
        if(path[i] != path[i - 1] && path[i] != 'P' && path[i - 1] != 'P')
@@ -156,10 +158,14 @@ void System::setTurns(const std::string& path)
        }
     }
     if(turns > 0) turns--;
+
+    return turns;
 }
 
-void System::setPaintedPlaces(const std::string& path)
+int System::setPaintedPlaces(const std::string& path)
 {
+    int paintedPlaces = 0;
+
     for(char c : path)
     {
         if(c == 'P')
@@ -167,10 +173,14 @@ void System::setPaintedPlaces(const std::string& path)
             paintedPlaces++;
         }
     }
+
+    return paintedPlaces;
 }
 
-void System::setPathLenght(const std::string& path)
+int System::setPathLenght(const std::string& path)
 {
+    int pathLenght = 0;
+
     for(int i = 1; i < path.size(); i++)
     {
         if(path[i] != 'P')
@@ -178,6 +188,8 @@ void System::setPathLenght(const std::string& path)
             pathLenght++;
         }
     }
+
+    return pathLenght;
 }
 
 int System::paintCount(std::queue<char> q) const
@@ -307,9 +319,9 @@ void System::run()
 
 
     std::string path = tree.wantedPath(id);
-    setTurns(path);
-    setPaintedPlaces(path);
-    setPathLenght(path);
+    int turns = setTurns(path);
+    int paintedPlaces = setPaintedPlaces(path);
+    int pathLenght = setPathLenght(path);
     //============
     
 

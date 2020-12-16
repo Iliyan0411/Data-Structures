@@ -12,11 +12,11 @@ private:
     int roomLenght, roomWidth;
     Position currPos;
     Position goalPos;
-    std::vector<Position> paintPoses{}; //вектор от всички позиции подходящи за боядисване
+    std::vector<Position> paintPoses{};
 
     void buildRoom();
-    void setCurrPos(const Position& pos);
-    void setGoalPos(const Position& pos);
+    void setCurrPos(const Position&);
+    void setGoalPos(const Position&);
 
 public:
     Drone(); // тук се четат входните данни от файла

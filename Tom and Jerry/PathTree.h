@@ -13,34 +13,34 @@ private:
     {
         char data{};
         std::vector<node*> instr{};
-        int index; // всички върхове, които не са листа имат индекс -1
+        int index;
 
         node(const char& _data, const std::vector<node*> _instr) : data(_data), instr(_instr), index(-1) {}
     };
     node* root;
 
-    void clear(node* curr); // изтрива дървото от паметта
-    void addHelper(std::queue<char> c, node*& curr);
-    void vizHelper(std::ostream& out, node* curr) const;
-    void moveTo(const char& c, node*& curr); //придвижване на curr с една стъпка спрямо това какъв символ е 'c'
-    void createLeafIndexHelper(node* curr);
-    void wantedPathHelper(const int& id, node* curr, std::string& str) const;
+    void clear(node*);
+    void addHelper(std::queue<char>, node*&);
+    void vizHelper(std::ostream&, node*) const;
+    void moveTo(const char&, node*&);
+    void createLeafIndexHelper(node*);
+    void wantedPathHelper(const int&, node*, std::string&) const;
 
-    bool hasSymbolChild(const char& c, node* curr) const;
-    bool isLeaf(node* curr) const;
-    bool member(const int& id, node* curr) const; // проверява дали curr съдържа в поддървото си връх с индекс id
+    bool hasSymbolChild(const char&, node*) const;
+    bool isLeaf(node*) const;
+    bool member(const int&, node*) const;
 
 public:
-    static int indexCounter; // статична променлива помагаща за индексиране на листата
+    static int indexCounter;
 
     PTree();
     ~PTree();
 
-    void add(const std::queue<char>& c);
-    void viz(std::ostream& out) const; // отпечатва дървото в viz.dot
-    void createLeafIndex(); // индексира листата от ляво на дясно
+    void add(const std::queue<char>&);
+    void viz(std::ostream&) const;
+    void createLeafIndex();
     
-    std::string wantedPath(const int& id) const; // връща пътя от корена на дървото до листо с индекс 'id'
+    std::string wantedPath(const int&) const;
 };
 
 
