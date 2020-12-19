@@ -18,7 +18,7 @@ size_t hfunc(const char* key)
 
 int main()
 {
-    HashMap<const char*, int> hmap(15, hfunc);
+    HashMap<const char*, int> hmap(hfunc, 15);
 
     hmap["Dimitar"] = 52;
     hmap["Iliyan"] = 19;
@@ -36,14 +36,16 @@ int main()
     HashMap<const char*, int> map;
     map = hmap;
 
-    std::cout << map["Dimitar"] << std::endl;
-    std::cout << map["Iliyan"] << std::endl;
-    std::cout << map["Aneta"] << std::endl << std::endl;
+    std::cout << "number of elements: " << map.numElements() << std::endl << std::endl;
 
-    std::cout << map.hasKey("Dimitar") << std::endl;
-    std::cout << map.hasKey("Iliyan") << std::endl;
-    std::cout << map.hasKey("Aneta") << std::endl;
-    std::cout << map.hasKey("Ivan") << std::endl << std::endl;
+    // std::cout << map["Dimitar"] << std::endl;
+    // std::cout << map["Iliyan"] << std::endl;
+    // std::cout << map["Aneta"] << std::endl << std::endl;
+
+    // std::cout << map.hasKey("Dimitar") << std::endl;
+    // std::cout << map.hasKey("Iliyan") << std::endl;
+    // std::cout << map.hasKey("Aneta") << std::endl;
+    // std::cout << map.hasKey("Ivan") << std::endl << std::endl;
 
     for(const char* c : map)
     {

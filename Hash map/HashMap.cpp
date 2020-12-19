@@ -6,20 +6,20 @@
 
 
 template <class Keys, class Values>
-HashMap<Keys,Values>::HashMap (size_t _size, std::function<size_t(const Keys&)> _h):size(_size),h(_h)
+HashMap<Keys,Values>::HashMap (std::function<size_t(const Keys&)> _h, size_t _size) : h(_h), size(_size)
 {
-  table = new HashMap<Keys,Values>::Entry*[size];
-  for (int i = 0; i < size; ++i)
-  {
-      table[i] = nullptr;
-  }  
+    table = new HashMap<Keys,Values>::Entry*[size];
+
+    for (int i = 0; i < size; ++i)
+    {
+        table[i] = nullptr;
+    }  
 }
 
 template <class Keys, class Values>
 HashMap<Keys,Values>::HashMap()
 {
     table = nullptr;
-    size = 0;
 }
 
 template <class Keys, class Values>
@@ -89,11 +89,35 @@ Values& HashMap<Keys,Values>::operator [](const Keys &key)
     if (kvpair != nullptr)
     {
         return kvpair->value;
-    } else 
+    } 
+    
+    table[index] = new HashMap<Keys,Values>::Entry {key,Values(),table[index]};
+
+    return table[index]->value;
+}
+
+template <class Keys, class Values>
+int HashMap<Keys,Values>::numElements() const
+{
+    if(!table)
     {
-        table[index] = new HashMap<Keys,Values>::Entry {key,Values(),table[index]};
-        return table[index]->value;
+        return 0;
     }
+
+    int counter = 0;
+    for(size_t i = 0; i < size; ++i)
+    {
+        HashMap<Keys,Values>::Entry* curr = nullptr;
+        if(table[i]) curr = table[i];
+
+        while(curr)
+        {
+            counter++;
+            curr = curr->next;
+        }
+    }
+
+    return counter;
 }
 
 template <class Keys, class Values>

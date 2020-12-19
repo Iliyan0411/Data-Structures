@@ -23,7 +23,7 @@ private:
 
 
 public:
-    HashMap (size_t, std::function<size_t(const Keys&)>);
+    HashMap (std::function<size_t(const Keys&)>, size_t);
     HashMap();
     HashMap(const HashMap<Keys,Values>& other);
     ~HashMap();
@@ -32,6 +32,7 @@ public:
     Values operator [](const Keys&) const;
     Values& operator [](const Keys&);
     bool hasKey(const Keys&) const;
+    int numElements() const;
 
 
     class Iterator
