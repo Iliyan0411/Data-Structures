@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-const int WIDTH = 6;
-const int HEIGHT = 5;
+const int WIDTH = 3;
+const int HEIGHT = 3;
 
 void check(int x, int y, int dest_x, int dest_y, 
            int (&maze)[HEIGHT][WIDTH], std::string& path) {
@@ -32,14 +32,12 @@ void check(int x, int y, int dest_x, int dest_y,
 
 int main() {
   int maze[HEIGHT][WIDTH] = {
-      {1,0,1,1,1,1},
-      {1,0,1,0,1,1},
-      {1,1,1,0,1,1},
-      {0,1,0,0,1,0},
-      {1,1,0,0,1,1}};
+      {1,1,1},
+      {0,0,1},
+      {1,1,1}};
 
   std::string path;
-  check(0, 0, 5, 4, maze, path);
+  check(0, 0, 2, 2, maze, path);
 
   return 0;
 }
