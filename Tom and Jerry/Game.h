@@ -1,10 +1,10 @@
-#ifndef _SYSTEM_H
-#define _SYSTEM_H
+#ifndef _GAME_H
+#define _GAME_H
 #include "PathTree.h"
 #include "Drone.h"
 
 
-class System
+class Game
 {
 private:
     PTree tree;

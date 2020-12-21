@@ -1,8 +1,11 @@
-#include "System.h"
+#include "Game.h"
 
 
-void System::buildTree(const std::vector<std::queue<char>>& v)
+void Game::buildTree(const std::vector<std::queue<char>>& v)
 {
+    tree.clear();
+    tree.reset();
+
     for(std::queue<char> q : v)
     {
         tree.add(q);
@@ -24,17 +27,17 @@ void System::buildTree(const std::vector<std::queue<char>>& v)
     out.close();
 }
 
-std::vector<std::vector<Position>> System::findPaths()
+std::vector<std::vector<Position>> Game::findPaths()
 {
-    std::vector<Position> v;
+    std::vector<Position> currPath;
     std::vector<std::vector<Position>> allPaths;
 
-    findPathsHelper(drone.getCurrPos(), drone.getGoalPos(), v, drone.getRoom(), allPaths);
+    findPathsHelper(drone.getCurrPos(), drone.getGoalPos(), currPath, drone.getRoom(), allPaths);
 
     return allPaths;
 }
 
-void System::findPathsHelper(Position curr, Position goal, std::vector<Position>& v, std::vector<std::vector<char>> room,
+void Game::findPathsHelper(Position curr, Position goal, std::vector<Position>& currPath, std::vector<std::vector<char>> room,
                             std::vector<std::vector<Position>>& allPaths)
 {
     if(curr.x < 0 || curr.y < 0 || curr.x >= drone.getRoomLenght() || curr.y >= drone.getRoomWidth() ||
@@ -43,29 +46,29 @@ void System::findPathsHelper(Position curr, Position goal, std::vector<Position>
         return;
     }
 
-    int len = v.size();
-    v.push_back(curr);
+    int len = currPath.size();
+    currPath.push_back(curr);
 
     if(curr == goal)
     {
-        allPaths.push_back(v);
+        allPaths.push_back(currPath);
     }
     else
     {
         room[curr.x][curr.y] = '1';
 
-        findPathsHelper({curr.x-1, curr.y}, goal, v, room, allPaths);
-        findPathsHelper({curr.x+1, curr.y}, goal, v, room, allPaths);
-        findPathsHelper({curr.x, curr.y+1}, goal, v, room, allPaths);
-        findPathsHelper({curr.x, curr.y-1}, goal, v, room, allPaths);
+        findPathsHelper({curr.x-1, curr.y}, goal, currPath, room, allPaths);
+        findPathsHelper({curr.x+1, curr.y}, goal, currPath, room, allPaths);
+        findPathsHelper({curr.x, curr.y+1}, goal, currPath, room, allPaths);
+        findPathsHelper({curr.x, curr.y-1}, goal, currPath, room, allPaths);
 
         room[curr.x][curr.y] = '0';
     }
     
-    v.resize(len);
+    currPath.resize(len);
 }
 
-void System::convertToInstructions(const std::vector<std::vector<Position>>& paths, std::vector<std::queue<char>>& instructions)
+void Game::convertToInstructions(const std::vector<std::vector<Position>>& paths, std::vector<std::queue<char>>& instructions)
 {
     std::queue<char> q;
 
@@ -110,7 +113,7 @@ void System::convertToInstructions(const std::vector<std::vector<Position>>& pat
     }
 }
 
-std::vector<std::vector<Position>> System::filterAllMinPaths(const std::vector<std::vector<Position>>& allPaths)
+std::vector<std::vector<Position>> Game::filterAllMinPaths(const std::vector<std::vector<Position>>& allPaths)
 {
      int min = allPaths[0].size();
 
@@ -134,15 +137,7 @@ std::vector<std::vector<Position>> System::filterAllMinPaths(const std::vector<s
     return allMinPaths;
 }
 
-void System::load()
-{
-    std::vector<std::vector<Position>> buffer = findPaths();
-    
-    convertToInstructions(buffer, allPathInstr);
-    convertToInstructions(filterAllMinPaths(buffer), allMinPathInstr);
-}
-
-int System::setTurns(const std::string& path)
+int Game::setTurns(const std::string& path)
 {
     int turns = 0;
 
@@ -162,7 +157,7 @@ int System::setTurns(const std::string& path)
     return turns;
 }
 
-int System::setPaintedPlaces(const std::string& path)
+int Game::setPaintedPlaces(const std::string& path)
 {
     int paintedPlaces = 0;
 
@@ -177,7 +172,7 @@ int System::setPaintedPlaces(const std::string& path)
     return paintedPlaces;
 }
 
-int System::setPathLenght(const std::string& path)
+int Game::setPathLenght(const std::string& path)
 {
     int pathLenght = 0;
 
@@ -192,7 +187,7 @@ int System::setPathLenght(const std::string& path)
     return pathLenght;
 }
 
-int System::paintCount(std::queue<char> q) const
+int Game::paintCount(std::queue<char> q) const
 {
     int count = 0;
     while(!q.empty())
@@ -208,7 +203,7 @@ int System::paintCount(std::queue<char> q) const
     return count;
 }
 
-int System::turnsCount(std::queue<char> q) const
+int Game::turnsCount(std::queue<char> q) const
 {
     int count = 0;
 
@@ -236,7 +231,7 @@ int System::turnsCount(std::queue<char> q) const
     return count;
 }
 
-std::vector<std::queue<char>> System::MAXpaintMINturns()
+std::vector<std::queue<char>> Game::MAXpaintMINturns()
 {
     int paintMax = paintCount(allPathInstr[0]);
     std::vector<int> indexes;
@@ -281,7 +276,15 @@ std::vector<std::queue<char>> System::MAXpaintMINturns()
     return result;
 }
 
-void System::run()
+void Game::load()
+{
+    std::vector<std::vector<Position>> buffer = findPaths();
+    
+    convertToInstructions(buffer, allPathInstr);
+    convertToInstructions(filterAllMinPaths(buffer), allMinPathInstr);
+}
+
+void Game::run()
 {
     load();
 
@@ -289,51 +292,60 @@ void System::run()
     std::cout << "\n\t\t\tTOM AND JERRY\n";
     std::cout << "\t\t      =================\n\n";
 
-    std::cout << "[1] View all paths\n";
-    std::cout << "[2] View all min paths\n";
-    std::cout << "[3] View paths with maximum painted places and minimum turns\n\n";
-    //============
-    
-    //============
-    int choose;
-    do
+    int choose = 0;
+
+    while(choose != 4)
     {
-        std::cout << "Enter number(1-3): ";
-        std::cin >> choose;
-    }while(choose < 1 || choose > 3);
+        PTree::indexCounter = 0;
 
-    if(choose == 1) buildTree(allPathInstr);
-    if(choose == 2) buildTree(allMinPathInstr);
-    if(choose == 3) buildTree(MAXpaintMINturns());
-    //============
+        std::cout << "[1] View all paths\n";
+        std::cout << "[2] View all min paths\n";
+        std::cout << "[3] View paths with maximum painted places and minimum turns\n";
+        std::cout << "[4] Exit\n\n";
+        //============
+        
+        //============
+        do
+        {
+            std::cout << "Enter number(1-4): ";
+            std::cin >> choose;
+        }while(choose < 1 || choose > 4);
 
-    //============
-    PTree::indexCounter--;
-    std::cout << "\nChoose path: (0 - " << PTree::indexCounter << ")\n";
+        if(choose == 1) buildTree(allPathInstr);
+        if(choose == 2) buildTree(allMinPathInstr);
+        if(choose == 3) buildTree(MAXpaintMINturns());
+        if(choose == 4) return;
+        //============
 
-    int id;
-    do{
-        std::cout << "Enter number: ";
-        std::cin >> id;
-    }while(id < 0 || id > PTree::indexCounter);
+        //============
+        PTree::indexCounter--;
+        std::cout << "\nChoose path: (0 - " << PTree::indexCounter << ")\n";
+
+        int id;
+        do{
+            std::cout << "Enter number: ";
+            std::cin >> id;
+        }while(id < 0 || id > PTree::indexCounter);
 
 
-    std::string path = tree.wantedPath(id);
-    int turns = setTurns(path);
-    int paintedPlaces = setPaintedPlaces(path);
-    int pathLenght = setPathLenght(path);
-    //============
-    
+        std::string path = tree.wantedPath(id);
+        int turns = setTurns(path);
+        int paintedPlaces = setPaintedPlaces(path);
+        int pathLenght = setPathLenght(path);
+        //============
+        
 
-    //============
-    std::cout << std::endl;
-    for(char c : path)
-    {
-        std::cout << c << "->";
+        //============
+        std::cout << std::endl;
+        for(char c : path)
+        {
+            std::cout << c << "->";
+        }
+        std::cout << "Jerry" << std::endl;
+
+        std::cout << "# Path lenght: " << pathLenght << std::endl;
+        std::cout << "# Turns: " << turns << std::endl;
+        std::cout << "# Painted places: " << paintedPlaces << std::endl;
+        std::cout << "================\n\n";
     }
-    std::cout << "Jerry" << std::endl;
-
-    std::cout << "# Path lenght: " << pathLenght << std::endl;
-    std::cout << "# Turns: " << turns << std::endl;
-    std::cout << "# Painted places: " << paintedPlaces << std::endl;
 }

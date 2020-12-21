@@ -19,12 +19,12 @@ private:
     };
     node* root;
 
-    void clear(node*);
     void addHelper(std::queue<char>, node*&);
     void vizHelper(std::ostream&, node*) const;
     void moveTo(const char&, node*&);
     void createLeafIndexHelper(node*);
     void wantedPathHelper(const int&, node*, std::string&) const;
+    void clearHelper(node*);
 
     bool hasSymbolChild(const char&, node*) const;
     bool isLeaf(node*) const;
@@ -39,6 +39,8 @@ public:
     void add(const std::queue<char>&);
     void viz(std::ostream&) const;
     void createLeafIndex();
+    void clear();
+    void reset();
     
     std::string wantedPath(const int&) const;
 };

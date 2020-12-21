@@ -3,31 +3,41 @@
 
 PTree::PTree()
 {
-    std::vector<node*> v{nullptr};
-    v.resize(5);
-
-    root = new node{'B', v};
+    reset();
 }
 
 PTree::~PTree()
 {
-    clear(root);
+    clear();
 }
 
-void PTree::clear(node* curr)
+void PTree::clear()
+{
+    clearHelper(root);
+}
+
+void PTree::clearHelper(node* curr)
 {
     if(!curr)
     {
         return;
     }
 
-    clear(curr->instr[0]);
-    clear(curr->instr[1]);
-    clear(curr->instr[2]);
-    clear(curr->instr[3]);
-    clear(curr->instr[4]);
+    clearHelper(curr->instr[0]);
+    clearHelper(curr->instr[1]);
+    clearHelper(curr->instr[2]);
+    clearHelper(curr->instr[3]);
+    clearHelper(curr->instr[4]);
 
     delete curr;
+}
+
+void PTree::reset()
+{
+    std::vector<node*> v{nullptr};
+    v.resize(5);
+
+    root = new node{'B', v};
 }
 
 void PTree::moveTo(const char& c, node*& curr)
