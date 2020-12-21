@@ -6,8 +6,9 @@
 
 
 template <class Keys, class Values>
-HashMap<Keys,Values>::HashMap (std::function<size_t(const Keys&)> _h, size_t _size) : h(_h), size(_size)
+HashMap<Keys,Values>::HashMap (std::function<size_t(const Keys&)> _h) : h(_h)
 {
+    size = 20;
     table = new HashMap<Keys,Values>::Entry*[size];
 
     for (int i = 0; i < size; ++i)
@@ -42,7 +43,7 @@ HashMap<Keys,Values>::~HashMap()
         }
     }
 
-    delete table;
+    delete[] table;
 }
 
 template <class Keys, class Values>
@@ -92,7 +93,7 @@ Values& HashMap<Keys,Values>::operator [](const Keys &key)
     } 
     
     table[index] = new HashMap<Keys,Values>::Entry {key,Values(),table[index]};
-
+   
     return table[index]->value;
 }
 

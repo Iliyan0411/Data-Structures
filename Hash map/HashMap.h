@@ -23,7 +23,7 @@ private:
 
 
 public:
-    HashMap (std::function<size_t(const Keys&)>, size_t);
+    HashMap (std::function<size_t(const Keys&)>);
     HashMap();
     HashMap(const HashMap<Keys,Values>& other);
     ~HashMap();

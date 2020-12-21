@@ -18,7 +18,7 @@ size_t hfunc(const char* key)
 
 int main()
 {
-    HashMap<const char*, int> hmap(hfunc, 15);
+    HashMap<const char*, int> hmap(hfunc);
 
     hmap["Dimitar"] = 52;
     hmap["Iliyan"] = 19;
