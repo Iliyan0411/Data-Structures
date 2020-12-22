@@ -1,6 +1,4 @@
 #include "HashMap.h"
-#include <iostream>
-#include <cstring>
 
 
 size_t hfunc(const char* key)
@@ -36,7 +34,11 @@ int main()
     HashMap<const char*, int> map;
     map = hmap;
 
-    std::cout << "number of elements: " << map.numElements() << std::endl << std::endl;
+    // std::ofstream out("players.txt");
+    // out << map;
+    // out.close();
+
+    // std::cout << map.efficiency() << std::endl;
 
     // std::cout << map["Dimitar"] << std::endl;
     // std::cout << map["Iliyan"] << std::endl;
@@ -47,10 +49,12 @@ int main()
     // std::cout << map.hasKey("Aneta") << std::endl;
     // std::cout << map.hasKey("Ivan") << std::endl << std::endl;
 
-    for(const char* c : map)
-    {
-        std::cout << c << "\t" << map[c] << "\n";
-    }
+    // for(const char* c : map)
+    // {
+    //     std::cout << c << "\t" << map[c] << "\n";
+    // }
+
+
 
     return 0;
 }

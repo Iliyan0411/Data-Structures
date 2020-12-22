@@ -1,0 +1,12 @@
+Georgi	31
+kolaNi	15
+Nikola	5
+Az	30
+Krisko	20
+Aneta	47
+Asen	80
+Stoikata	22
+Spasi	37
+Iliyan	19
+Dimitar	52
+Kaloyan	60

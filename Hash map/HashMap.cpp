@@ -2,13 +2,13 @@
 #define __HASMAP_CPP
 
 #include "HashMap.h"
-#include <cassert>
 
 
 template <class Keys, class Values>
 HashMap<Keys,Values>::HashMap (std::function<size_t(const Keys&)> _h) : h(_h)
 {
     size = 20;
+    all = 0;
     table = new HashMap<Keys,Values>::Entry*[size];
 
     for (int i = 0; i < size; ++i)
@@ -21,10 +21,15 @@ template <class Keys, class Values>
 HashMap<Keys,Values>::HashMap()
 {
     table = nullptr;
+    all = 0;
+    size = 0;
 }
 
 template <class Keys, class Values>
-HashMap<Keys,Values>::HashMap(const HashMap<Keys,Values>& other) : h(other.h), size(other.size), table(other.table) {}
+HashMap<Keys,Values>::HashMap(const HashMap<Keys,Values>& other) : h(other.h), size(other.size), all(other.all), table(other.table) 
+{
+
+}
 
 template <class Keys, class Values>
 HashMap<Keys,Values>::~HashMap()
@@ -51,6 +56,7 @@ HashMap<Keys,Values>& HashMap<Keys,Values>::operator = (const HashMap<Keys,Value
 {
     h = other.h;
     size = other.size;
+    all = other.all;
 
     table = other.table;
 
@@ -93,29 +99,35 @@ Values& HashMap<Keys,Values>::operator [](const Keys &key)
     } 
     
     table[index] = new HashMap<Keys,Values>::Entry {key,Values(),table[index]};
+    all++;
    
     return table[index]->value;
 }
 
 template <class Keys, class Values>
-int HashMap<Keys,Values>::numElements() const
+size_t HashMap<Keys,Values>::numElements() const
 {
-    if(!table)
-    {
-        return 0;
-    }
+    return all;
+}
 
-    int counter = 0;
+template <class Keys, class Values>
+size_t HashMap<Keys,Values>::coliding () const
+{
+    size_t counter = 0;
+
     for(size_t i = 0; i < size; ++i)
     {
-        HashMap<Keys,Values>::Entry* curr = nullptr;
-        if(table[i]) curr = table[i];
+       if(table[i])
+       {
+          HashMap<Keys,Values>::Entry* curr = table[i];
+          curr = curr->next;
 
-        while(curr)
-        {
+          while(curr)
+          {
             counter++;
             curr = curr->next;
-        }
+          } 
+       }
     }
 
     return counter;
@@ -130,6 +142,22 @@ bool HashMap<Keys,Values>::hasKey(const Keys &key) const
     return kvpair != nullptr;
 }
 
+template <class Keys, class Values>
+double HashMap<Keys,Values>::efficiency() const
+{
+    return ((double)all - (double)coliding()) / (double)all;   
+}
+
+template <class Keys, class Values>
+std::ostream& operator <<(std::ostream& out, const HashMap<Keys,Values>& hmap)
+{
+    for(Keys key : hmap)
+    {
+        out << key << '\t' << hmap[key] << std::endl;
+    }
+
+    return out;
+}
 
 template <class Keys, class Values>
 HashMap<Keys,Values>::Iterator::Iterator(HashMap<Keys,Values>::Entry** _table, size_t _size) : table(_table), size(_size)
