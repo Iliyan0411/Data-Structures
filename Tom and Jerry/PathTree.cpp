@@ -61,14 +61,14 @@ bool PTree::hasSymbolChild(const char& c, node* curr) const
     return false;
 }
 
-void PTree::add(const std::queue<char>& q)
+void PTree::add(const std::queue<char>& newPath)
 {
-   std::queue<char> temp = q;
+   std::queue<char> temp = newPath;
    node* curr = root;
 
    if(!isLeaf(curr))
    {
-       moveTo(q.front(), curr);
+       moveTo(newPath.front(), curr);
 
         while(temp.front() == curr->data)
         {
@@ -118,11 +118,11 @@ void PTree::add(const std::queue<char>& q)
     addHelper(temp, curr);
 }
 
-void PTree::addHelper(std::queue<char> q, node*& curr)
+void PTree::addHelper(std::queue<char> newPath, node*& curr)
 {
     if(curr == nullptr)
     {
-        if(q.empty())
+        if(newPath.empty())
         {
             return;
         }
@@ -130,28 +130,28 @@ void PTree::addHelper(std::queue<char> q, node*& curr)
         std::vector<node*> v{nullptr};
         v.resize(5);
 
-        curr = new node{q.front(), v};
-        q.pop();
+        curr = new node{newPath.front(), v};
+        newPath.pop();
     }
 
-    if(!q.empty())
+    if(!newPath.empty())
     {
-        switch(q.front())
+        switch(newPath.front())
         {
             case 'N': 
-                addHelper(q, curr->instr[0]);
+                addHelper(newPath, curr->instr[0]);
                 break;
             case 'S': 
-                addHelper(q, curr->instr[1]);
+                addHelper(newPath, curr->instr[1]);
                 break;
             case 'E': 
-                addHelper(q, curr->instr[2]);
+                addHelper(newPath, curr->instr[2]);
                 break;
             case 'W': 
-                addHelper(q, curr->instr[3]);
+                addHelper(newPath, curr->instr[3]);
                 break;
             case 'P': 
-                addHelper(q, curr->instr[4]);
+                addHelper(newPath, curr->instr[4]);
                 break;
         }
     }    
