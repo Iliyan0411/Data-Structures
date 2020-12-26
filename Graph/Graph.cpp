@@ -2,6 +2,9 @@
 #define _GRAPH_CPP_
 
 #include "Graph.h"
+#include <stack>
+#include <queue>
+
 
 template <class vertexT, class weightT>
 Graph<vertexT, weightT>::Graph(std::vector<std::pair<edgeType, weightT>> v)
@@ -76,6 +79,148 @@ void Graph<vertexT, weightT>::print()
 }
 
 template <class vertexT, class weightT>
+void Graph<vertexT, weightT>::printDFS(const vertexT start)
+{
+    std::stack<vertexT> dfsStack;
+    std::set<vertexT> visitedVertices;
+
+    vertexT fst = start;
+    dfsStack.push(fst);
+    visitedVertices.insert(fst);
+
+    while(!dfsStack.empty())
+    {
+        vertexT top = dfsStack.top();
+        dfsStack.pop();
+
+        for(vertexT vert : getNeighs(top))
+        {
+            if(visitedVertices.count(vert) == 0)
+            {
+                visitedVertices.insert(vert);
+                dfsStack.push(vert);
+            }
+        }
+
+        std::cout << top << " ";
+    }
+    std::cout << std::endl;
+}
+
+template <class vertexT, class weightT>
+void Graph<vertexT, weightT>::printBFS(const vertexT start)
+{
+    std::queue<vertexT> bfsQueue;
+    std::set<vertexT> visitedVertices;
+
+    vertexT fst = start;
+    bfsQueue.push(fst);
+    visitedVertices.insert(fst);
+
+    while(!bfsQueue.empty())
+    {
+        vertexT top = bfsQueue.front();
+        bfsQueue.pop();
+
+        for(vertexT vert : getNeighs(top))
+        {
+            if(visitedVertices.count(vert) == 0)
+            {
+                visitedVertices.insert(vert);
+                bfsQueue.push(vert);
+            }
+        }
+
+        std::cout << top << " ";
+    }
+    std::cout << std::endl;
+}
+
+template <class vertexT, class weightT>
+bool Graph<vertexT, weightT>::hasPath(const vertexT& start, const vertexT& end)
+{
+    if(!hasVertex(start) || !hasVertex(end))
+    {
+        throw std::invalid_argument ("There is no such vertex!");
+    }
+
+    std::stack<vertexT> dfsStack;
+    std::set<vertexT> visitedVertices;
+
+    vertexT fst = start;
+    dfsStack.push(fst);
+    visitedVertices.insert(fst);
+
+    while(!dfsStack.empty())
+    {
+        vertexT top = dfsStack.top();
+        dfsStack.pop();
+
+        for(vertexT vert : getNeighs(top))
+        {
+            if(visitedVertices.count(vert) == 0)
+            {
+                visitedVertices.insert(vert);
+                dfsStack.push(vert);
+            }
+        }
+
+        if(visitedVertices.count(end) == 1)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+template <class vertexT, class weightT>
+std::vector<vertexT> Graph<vertexT, weightT>::getPath(const vertexT& start, const vertexT& end)
+{
+    if(!hasVertex(start) || !hasVertex(end))
+    {
+        throw std::invalid_argument ("There is no such vertex!");
+    }
+
+    std::vector<vertexT> path;
+    std::stack<edgeType> dfsStack;
+    std::set<vertexT> visitedVertices;
+
+    vertexT fst = start;
+    dfsStack.push({fst,fst});
+    visitedVertices.insert(fst);
+
+    while(!dfsStack.empty())
+    {
+        auto [parentVert, currentVert] = dfsStack.top();
+        dfsStack.pop();
+
+        if(currentVert == end)
+        {
+            path.push_back(currentVert);
+            return path;
+        }
+
+        while(!path.empty() && path[path.size() - 1] != parentVert)
+        {
+            path.pop_back();
+        }
+
+        path.push_back(currentVert);
+        for(vertexT vert : getNeighs(currentVert))
+        {
+            if(visitedVertices.count(vert) == 0)
+            {
+                visitedVertices.insert(vert);
+                dfsStack.push({currentVert, vert});
+            }
+        }
+    }
+
+    return path;
+}
+
+template <class vertexT, class weightT>
 void Graph<vertexT, weightT>::viz(std::ostream& out)
 {
     out << "digraph G{\n";
@@ -92,5 +237,6 @@ void Graph<vertexT, weightT>::viz(std::ostream& out)
 
     out << "}";
 }
+
 
 #endif

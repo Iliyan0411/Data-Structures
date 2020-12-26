@@ -1,28 +1,32 @@
 #include "Graph.h"
 #include <fstream>
+#include <string>
 
 
 int main()
 {
-    Graph<int,int> g({std::make_pair(std::make_pair(1,2), 1), std::make_pair(std::make_pair(2,3), 0),
-                        std::make_pair(std::make_pair(2,4), 0), std::make_pair(std::make_pair(3,1), 0)});
+    Graph<std::string,int> g({std::make_pair(std::make_pair("Sofia","Svilengrad"), 300), 
+                            std::make_pair(std::make_pair("Svilengrad","Plovdiv"), 150),
+                            std::make_pair(std::make_pair("Sofia","Plovdiv"), 150), 
+                            std::make_pair(std::make_pair("Sofia","Varna"), 400)});
 
-    g.addVertex(5);
-    g.addVertex(6);
-    g.addEdge(2, 5, 0);
-    g.addEdge(5, 3, 0);
-    g.addEdge(3, 6, 2);
-    g.addEdge(6, 3, 3);
+    g.addEdge("Burgas", "Svilengrad", 150);
+    g.addEdge("Vidin", "Burgas", 500);
+    g.addEdge("Liubimec", "Svilengrad", 15);
+    g.addEdge("Vidin", "Sofia", 200);
 
-    //g.print();
+    for(std::string vert : g.getPath("Vidin", "Plovdiv"))
+    {
+        std::cout << vert << " ";
+    }
+
+    // g.printDFS("Vidin");
+    // g.printBFS("Vidin");
+    // g.print();
     
-    // for(int i = 1; i < 6; i++)
-    // {
-    //     for(auto &&v : g.getNeighs(i))
-    //     {
-    //         std::cout << v << " -> ";
-    //     }std::cout << std::endl;
-    // }
+    // std::cout << g.hasPath("Vidin", "Sofia") << std::endl;
+    // std::cout << g.hasPath("Vidin", "Liubimec") << std::endl;
+
    
     std::ofstream out("graph.dot");
     g.viz(out);
