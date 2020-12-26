@@ -8,7 +8,8 @@ int main()
     doctest::Context().run();
 
     Game game;
-    game.run();
+    game.run();	
+
 
 
     return 0;

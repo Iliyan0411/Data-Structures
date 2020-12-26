@@ -30,6 +30,7 @@ private:
     int setPathLenght(const std::string&);
 
     void load();
+    void userInput(int&);
 
 public:
     void run();

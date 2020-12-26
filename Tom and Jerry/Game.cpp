@@ -284,6 +284,21 @@ void Game::load()
     convertToInstructions(filterAllMinPaths(buffer), allMinPathInstr);
 }
 
+void Game::userInput(int& choose)
+{
+    while(!(std::cin >> choose)) 
+    {
+        std::cin.clear();
+
+        while (std::cin.get() != '\n')
+        {
+            continue;
+        }
+
+        std::cout << "Enter number again: ";
+    }		
+}
+
 void Game::run()
 {
     load();
@@ -305,11 +320,11 @@ void Game::run()
         //============
         
         //============
-        do
-        {
-            std::cout << "Enter number(1-4): ";
-            std::cin >> choose;
-        }while(choose < 1 || choose > 4);
+        std::cout << "Enter number(1-4): ";
+        do{
+            userInput(choose);
+        } while(choose < 1 || choose > 4);
+
 
         if(choose == 1) buildTree(allPathInstr);
         if(choose == 2) buildTree(allMinPathInstr);
@@ -319,13 +334,12 @@ void Game::run()
 
         //============
         PTree::indexCounter--;
-        std::cout << "\nChoose path: (0 - " << PTree::indexCounter << ")\n";
+        std::cout << "\nChoose path(0 - " << PTree::indexCounter << "): ";
 
-        int id;
+        int id = 0;
         do{
-            std::cout << "Enter number: ";
-            std::cin >> id;
-        }while(id < 0 || id > PTree::indexCounter);
+            userInput(id);
+        } while(id < 0 || id > PTree::indexCounter);
 
 
         std::string path = tree.wantedPath(id);
@@ -346,6 +360,11 @@ void Game::run()
         std::cout << "# Path lenght: " << pathLenght << std::endl;
         std::cout << "# Turns: " << turns << std::endl;
         std::cout << "# Painted places: " << paintedPlaces << std::endl;
-        std::cout << "================\n\n";
+        
+        //============
+        for(int i = 0; i < 7; i++)
+        {
+            std::cout << "#\n";
+        }std::cout << std::endl;
     }
 }
