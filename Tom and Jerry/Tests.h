@@ -64,8 +64,4 @@ TEST_CASE("Path tree test")
 
     str = t.wantedPath(5);
     CHECK(str.size() == 0);
-
-    CHECK(PTree::indexCounter == 2);
-
-    PTree::indexCounter = 0;
 }

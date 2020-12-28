@@ -1,11 +1,10 @@
 #include "Tests.h"
 
 
-int PTree::indexCounter = 0;
 
 int main()
 {
-    doctest::Context().run();
+    doctest::Context().run(); // тестове
 
     Game game;
     game.run();	

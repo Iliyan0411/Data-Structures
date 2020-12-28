@@ -311,8 +311,6 @@ void Game::run()
 
     while(choose != 4)
     {
-        PTree::indexCounter = 0;
-
         std::cout << "[1] View all paths\n";
         std::cout << "[2] View all min paths\n";
         std::cout << "[3] View paths with maximum painted places and minimum turns\n";
@@ -333,13 +331,13 @@ void Game::run()
         //============
 
         //============
-        PTree::indexCounter--;
-        std::cout << "\nChoose path(0 - " << PTree::indexCounter << "): ";
+        int pathsNum = tree.leavesNum() - 1;
+        std::cout << "\nChoose path(0 - " << pathsNum << "): ";
 
         int id = 0;
         do{
             userInput(id);
-        } while(id < 0 || id > PTree::indexCounter);
+        } while(id < 0 || id > pathsNum);
 
 
         std::string path = tree.wantedPath(id);
@@ -362,9 +360,6 @@ void Game::run()
         std::cout << "# Painted places: " << paintedPlaces << std::endl;
         
         //============
-        for(int i = 0; i < 7; i++)
-        {
-            std::cout << "#\n";
-        }std::cout << std::endl;
+        std::cout << "#\n########################\n";
     }
 }

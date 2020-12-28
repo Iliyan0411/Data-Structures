@@ -38,6 +38,7 @@ void PTree::reset()
     v.resize(5);
 
     root = new node{'B', v};
+    numberOfLeaves = 0;
 }
 
 void PTree::moveTo(const char& c, node*& curr)
@@ -63,6 +64,8 @@ bool PTree::hasSymbolChild(const char& c, node* curr) const
 
 void PTree::add(const std::queue<char>& newPath)
 {
+   numberOfLeaves++;
+
    std::queue<char> temp = newPath;
    node* curr = root;
 
@@ -157,6 +160,11 @@ void PTree::addHelper(std::queue<char> newPath, node*& curr)
     }    
 }
 
+int PTree::leavesNum() const
+{
+    return numberOfLeaves;
+}
+
 void PTree::viz(std::ostream& out) const
 {
     out << "digraph G{\n";
@@ -166,7 +174,7 @@ void PTree::viz(std::ostream& out) const
 
 void PTree::vizHelper(std::ostream& out, node* curr) const
 {
-    if(curr == nullptr)
+    if(!curr)
     {
         return;
     }
@@ -179,36 +187,21 @@ void PTree::vizHelper(std::ostream& out, node* curr) const
 
     out << (long)curr << "[label=\"" << curr->data << "\"]\n";
     
-        if(curr->instr[0] != nullptr)
+    for(int i = 0; i < 5; i++)
+    {
+        if(curr->instr[i] != nullptr)
         {
-            if(curr->instr[0]->index == -1) out << (long)curr << "->" << (long)curr->instr[0]<< ";\n";
-            else out << (long)curr << "->" << (long)curr->instr[0]<< "[label=" << curr->instr[0]->index << "];\n";
+            if(curr->instr[i]->index == -1) out << (long)curr << "->" << (long)curr->instr[i]<< ";\n";
+            else out << (long)curr << "->" << (long)curr->instr[i]<< "[label=" << curr->instr[i]->index << "];\n";
         }
-        if(curr->instr[1] != nullptr)
-        {
-           if(curr->instr[1]->index == -1) out << (long)curr << "->" << (long)curr->instr[1]<< ";\n";
-           else out << (long)curr << "->" << (long)curr->instr[1]<< "[label=" << curr->instr[1]->index << "];\n";
-        }
-        if(curr->instr[2] != nullptr)
-        {
-            if(curr->instr[2]->index == -1) out << (long)curr << "->" << (long)curr->instr[2]<< ";\n";
-            else out << (long)curr << "->" << (long)curr->instr[2]<< "[label=" << curr->instr[2]->index << "];\n";
-        }
-        if(curr->instr[3] != nullptr)
-        {
-            if(curr->instr[3]->index == -1) out << (long)curr << "->" << (long)curr->instr[3]<< ";\n";
-            else out << (long)curr << "->" << (long)curr->instr[3]<< "[label=" << curr->instr[3]->index << "];\n";
-        }
-        if(curr->instr[4] != nullptr)
-        {
-            if(curr->instr[4]->index == -1) out << (long)curr << "->" << (long)curr->instr[4]<< ";\n";
-            else out << (long)curr << "->" << (long)curr->instr[4]<< "[label=" << curr->instr[4]->index << "];\n";
-        }
+    }
 }
 
 void PTree::createLeafIndex()
 {
-    createLeafIndexHelper(root);
+    int indexCounter = 0;
+
+    createLeafIndexHelper(root, indexCounter);
 }
 
 bool PTree::isLeaf(node* curr) const
@@ -224,7 +217,7 @@ bool PTree::isLeaf(node* curr) const
     return true;
 }
 
-void PTree::createLeafIndexHelper(node* curr)
+void PTree::createLeafIndexHelper(node* curr, int& indexCounter)
 {
     if(!curr)
     {
@@ -233,16 +226,16 @@ void PTree::createLeafIndexHelper(node* curr)
 
     if(isLeaf(curr))
     {
-        curr->index = PTree::indexCounter;
-        PTree::indexCounter++;
+        curr->index = indexCounter;
+        indexCounter++;
     }
     else curr->index = -1;
 
-    createLeafIndexHelper(curr->instr[0]);
-    createLeafIndexHelper(curr->instr[1]);
-    createLeafIndexHelper(curr->instr[2]);
-    createLeafIndexHelper(curr->instr[3]);
-    createLeafIndexHelper(curr->instr[4]);
+    createLeafIndexHelper(curr->instr[0], indexCounter);
+    createLeafIndexHelper(curr->instr[1], indexCounter);
+    createLeafIndexHelper(curr->instr[2], indexCounter);
+    createLeafIndexHelper(curr->instr[3], indexCounter);
+    createLeafIndexHelper(curr->instr[4], indexCounter);
 }
 
 std::string PTree::wantedPath(const int& id) const

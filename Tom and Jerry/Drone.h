@@ -12,7 +12,7 @@ private:
     int roomLenght, roomWidth;
     Position currPos;
     Position goalPos;
-    std::vector<Position> paintPoses{};
+    std::vector<Position> paintPoses{}; // вектор с всички позиции, на които е възможно разливане на боя
 
     void buildRoom();
     void setCurrPos(const Position&);
