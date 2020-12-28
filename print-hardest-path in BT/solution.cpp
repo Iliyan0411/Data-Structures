@@ -31,26 +31,7 @@ vector<int> hardestPath(Node* root)
     int max = root->data;
     vector<int> currPath, result;
     
-<<<<<<< HEAD
     dfs(root, 0, max, currPath, result);
-=======
-    for(int i = 0; i < allPaths.size(); ++i)
-    {
-        int sum = 0;
-        for(int j = 0; j < allPaths[i].size(); ++j)
-        {
-            sum += allPaths[i][j];
-        }
-        if(i == 0){
-            maxIndex = i;
-            max = sum;
-        }
-        else if(i > 0 && sum > max){
-                max = sum;
-                maxIndex = i;
-        }
-    }
->>>>>>> e14504516572a0dc1ffb8a15a32f388b671b2139
     
     return result;
 }
