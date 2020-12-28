@@ -61,11 +61,9 @@ void printHardestPath(vector<vector<int>> allPaths)
             maxIndex = i;
             max = sum;
         }
-        else{
-            if(sum > max){
+        else if(i > 0 && sum > max){
                 max = sum;
                 maxIndex = i;
-            }
         }
     }
     
