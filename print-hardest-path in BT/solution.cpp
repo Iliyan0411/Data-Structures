@@ -29,9 +29,9 @@ void dfs(Node* curr, int sum, int& max, vector<int> currPath, vector<int>& resul
 vector<int> hardestPath(Node* root)
 {
     int max = root->data;
-    vector<int> currPath, result;
+    vector<int> result;
     
-    dfs(root, 0, max, currPath, result);
+    dfs(root, 0, max, vector<int>(), result);
     
     return result;
 }
