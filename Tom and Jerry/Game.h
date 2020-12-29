@@ -12,6 +12,7 @@ private:
     std::vector<std::queue<char>> allPathInstr; // вектор от всички възможни пътища
     std::vector<std::queue<char>> allMinPathInstr; // вектор от най-късите пътища
 
+
     // създава дърво от всички пътища подадени чрез вектора
     void buildTree(const std::vector<std::queue<char>>&);
     
@@ -26,12 +27,11 @@ private:
 
     // връща пътищата, при които се разлива най-много боя и се правят най-малко завои
     std::vector<std::queue<char>> MAXpaintMINturns();
-    int paintCount(std::queue<char>) const;
-    int turnsCount(std::queue<char>) const;
 
-    int setTurns(const std::string&);
-    int setPaintedPlaces(const std::string&);
-    int setPathLenght(const std::string&);
+    std::string queueTOstring(std::queue<char>) const;
+    int countTurns(const std::string&) const;
+    int countPaintedPlaces(const std::string&) const;
+    int countPathLenght(const std::string&) const;
 
     void load(); // зарежда някои основни функционалности
     void userInput(int&); // грижи се за валидност на потребителския вход

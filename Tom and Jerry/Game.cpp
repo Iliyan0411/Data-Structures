@@ -137,7 +137,20 @@ std::vector<std::vector<Position>> Game::filterAllMinPaths(const std::vector<std
     return allMinPaths;
 }
 
-int Game::setTurns(const std::string& path)
+std::string Game::queueTOstring(std::queue<char> qpath) const
+{
+    std::string spath;
+
+    while(!qpath.empty())
+    {
+        spath.push_back(qpath.front());
+        qpath.pop();
+    }
+
+    return spath;
+}
+
+int Game::countTurns(const std::string& path) const
 {
     int turns = 0;
 
@@ -157,7 +170,7 @@ int Game::setTurns(const std::string& path)
     return turns;
 }
 
-int Game::setPaintedPlaces(const std::string& path)
+int Game::countPaintedPlaces(const std::string& path) const
 {
     int paintedPlaces = 0;
 
@@ -172,7 +185,7 @@ int Game::setPaintedPlaces(const std::string& path)
     return paintedPlaces;
 }
 
-int Game::setPathLenght(const std::string& path)
+int Game::countPathLenght(const std::string& path) const
 {
     int pathLenght = 0;
 
@@ -187,78 +200,34 @@ int Game::setPathLenght(const std::string& path)
     return pathLenght;
 }
 
-int Game::paintCount(std::queue<char> q) const
-{
-    int count = 0;
-    while(!q.empty())
-    {
-        if(q.front() == 'P')
-        {
-            count++;
-        }
-
-        q.pop();
-    }
-
-    return count;
-}
-
-int Game::turnsCount(std::queue<char> q) const
-{
-    int count = 0;
-
-    std::string str;
-    while(!q.empty())
-    {
-        str.push_back(q.front());
-        q.pop();
-    }
-
-    for(int i = 1; i < str.size(); i++)
-    {
-       if(str[i] != str[i - 1] && str[i] != 'P' && str[i - 1] != 'P')
-       {
-           count++;
-       }
-       else if(str[i - 1] == 'P' && str[i] != str[i - 2])
-       {
-           count++;
-       }
-    }
-    count--;
-
-
-    return count;
-}
-
 std::vector<std::queue<char>> Game::MAXpaintMINturns()
 {
-    int paintMax = paintCount(allPathInstr[0]);
+    int paintMax = countPaintedPlaces(queueTOstring(allPathInstr[0]));
     std::vector<int> indexes;
 
     for(int i = 1; i < allPathInstr.size(); i++)
     {
-        if(paintCount(allPathInstr[i]) > paintMax)
+        if(countPaintedPlaces(queueTOstring(allPathInstr[i])) > paintMax)
         {
-            paintMax = paintCount(allPathInstr[i]);
+            paintMax = countPaintedPlaces(queueTOstring(allPathInstr[i]));
         }
     }
 
     for(int i = 0; i < allPathInstr.size(); i++)
     {
-        if(paintCount(allPathInstr[i]) == paintMax)
+        if(countPaintedPlaces(queueTOstring(allPathInstr[i])) == paintMax)
         {
             indexes.push_back(i);
         }
     }
 
-    int turnsMin = turnsCount(allPathInstr[indexes[0]]);
+    int turnsMin = countTurns(queueTOstring(allPathInstr[indexes[0]]));
 
     for(int i = 1; i < indexes.size(); i++)
     {
-        if(turnsCount(allPathInstr[indexes[i]]) < turnsMin)
+        if(countTurns(queueTOstring(allPathInstr[indexes[i]])) < turnsMin)
         {
-            turnsMin = turnsCount(allPathInstr[indexes[i]]);
+            turnsMin = countTurns(queueTOstring(allPathInstr[indexes[i]]));
         }
     }
 
@@ -267,7 +236,7 @@ std::vector<std::queue<char>> Game::MAXpaintMINturns()
 
     for(int i = 0; i < indexes.size(); i++)
     {
-        if(turnsCount(allPathInstr[indexes[i]]) == turnsMin)
+        if(countTurns(queueTOstring(allPathInstr[indexes[i]])) == turnsMin)
         {
             result.push_back(allPathInstr[indexes[i]]);
         }
@@ -341,9 +310,9 @@ void Game::run()
 
 
         std::string path = tree.wantedPath(id);
-        int turns = setTurns(path);
-        int paintedPlaces = setPaintedPlaces(path);
-        int pathLenght = setPathLenght(path);
+        int turns = countTurns(path);
+        int paintedPlaces = countPaintedPlaces(path);
+        int pathLenght = countPathLenght(path);
         //============
         
 
