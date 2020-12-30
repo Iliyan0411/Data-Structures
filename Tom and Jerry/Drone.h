@@ -14,6 +14,7 @@ private:
     Position goalPos;
     std::vector<Position> paintPoses{}; // вектор с всички позиции, на които е възможно разливане на боя
 
+    void deserialization();
     void buildRoom();
     void setCurrPos(const Position&);
     void setGoalPos(const Position&);

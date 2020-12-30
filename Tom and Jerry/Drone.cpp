@@ -4,17 +4,24 @@
 
 Drone::Drone()
 {
+   deserialization();
+}
+
+void Drone::deserialization()
+{
     std::ifstream in("parameters.txt");
 
     if(!in){
         throw std::runtime_error ("File error");
     }
 
-
     in >> roomWidth;
     in >> roomLenght;
     in.ignore();
 
+    if(roomWidth <= 0 || roomLenght <= 0){
+        throw std::invalid_argument ("Room can't be with negative size!");
+    }
     buildRoom();
 
     int x, y;
@@ -22,18 +29,28 @@ Drone::Drone()
     in >> y;
     in.ignore();
 
+    if(x < 0 || x >= roomLenght || y < 0 || y >= roomWidth){
+        throw std::invalid_argument ("Jerry's position is invalid!");
+    }
     setGoalPos({x,y});
 
     in >> x;
     in >> y;
     in.ignore();
 
+    if(x < 0 || x >= roomLenght || y < 0 || y >= roomWidth){
+        throw std::invalid_argument ("Tom's position is invalid!");
+    }
     setCurrPos({x,y});
 
     int K, L;
     in >> K;
     in >> L;
     in.ignore();
+
+    if(K < 0 || L < 0){
+        throw std::invalid_argument ("Number of furnitures or painted places can't be negative!");
+    }
 
     for(int i = 0; i < K; i++)
     {

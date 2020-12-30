@@ -242,33 +242,31 @@ std::string PTree::wantedPath(const int& id) const
 {
     std::string path;
 
-    wantedPathHelper(id, root, path);
+    wantedPathHelper(id, root, std::string(), path);
 
     return path;
 }
 
-void PTree::wantedPathHelper(const int& id, node* curr, std::string& str) const
+void PTree::wantedPathHelper(const int& id, node* curr, std::string currPath, std::string& path) const
 {
-    if(!curr || !member(id, curr) || (isLeaf(curr) && curr->index != id))
+    if(!curr)
     {
         return;
     }
+
+    currPath.push_back(curr->data);
 
     if(curr->index == id)
     {
-        str.push_back(curr->data);
+        path = currPath;
         return;
     }
-    if(member(id, curr))
-    {
-        str.push_back(curr->data);
-    }
 
-    wantedPathHelper(id, curr->instr[0], str);
-    wantedPathHelper(id, curr->instr[1], str);
-    wantedPathHelper(id, curr->instr[2], str);
-    wantedPathHelper(id, curr->instr[3], str);
-    wantedPathHelper(id, curr->instr[4], str);
+    wantedPathHelper(id, curr->instr[0], currPath, path);
+    wantedPathHelper(id, curr->instr[1], currPath, path);
+    wantedPathHelper(id, curr->instr[2], currPath, path);
+    wantedPathHelper(id, curr->instr[3], currPath, path);
+    wantedPathHelper(id, curr->instr[4], currPath, path);
 }
 
 bool PTree::member(const int& id, node* curr) const

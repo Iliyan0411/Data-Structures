@@ -34,7 +34,7 @@ private:
     int countPathLenght(const std::string&) const;
 
     void load(); // зарежда някои основни функционалности
-    void userInput(int&); // грижи се за валидност на потребителския вход
+    void userInput(int&, const int&, const int&) const; // грижи се за валидност на потребителския вход
 
 public:
     void run(); // изпълнява всички функционалности на проекта

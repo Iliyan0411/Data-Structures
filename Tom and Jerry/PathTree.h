@@ -24,12 +24,11 @@ private:
     void vizHelper(std::ostream&, node*) const;
     void moveTo(const char&, node*&); // придвижва указателя според подадения символ
     void createLeafIndexHelper(node*, int&);
-    void wantedPathHelper(const int&, node*, std::string&) const;
+    void wantedPathHelper(const int&, node*, std::string, std::string&) const;
     void clearHelper(node*);
 
     bool hasSymbolChild(const char&, node*) const;
     bool isLeaf(node*) const;
-    bool member(const int&, node*) const; // проверява дали даденият връх съдържа в поддървото си връх с конкретния индекс
 
 public:
     PTree();

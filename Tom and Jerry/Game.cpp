@@ -253,9 +253,9 @@ void Game::load()
     convertToInstructions(filterAllMinPaths(buffer), allMinPathInstr);
 }
 
-void Game::userInput(int& choose)
+void Game::userInput(int& choose, const int& min, const int& max) const
 {
-    while(!(std::cin >> choose)) 
+    while(!(std::cin >> choose) || choose < min || choose > max) 
     {
         std::cin.clear();
 
@@ -288,9 +288,7 @@ void Game::run()
         
         //============
         std::cout << "Enter number(1-4): ";
-        do{
-            userInput(choose);
-        } while(choose < 1 || choose > 4);
+        userInput(choose, 1, 4);
 
 
         if(choose == 1) buildTree(allPathInstr);
@@ -304,10 +302,8 @@ void Game::run()
         std::cout << "\nChoose path(0 - " << pathsNum << "): ";
 
         int id = 0;
-        do{
-            userInput(id);
-        } while(id < 0 || id > pathsNum);
-
+        userInput(id, 0, pathsNum);
+        
 
         std::string path = tree.wantedPath(id);
         int turns = countTurns(path);
