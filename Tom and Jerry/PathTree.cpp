@@ -268,13 +268,3 @@ void PTree::wantedPathHelper(const int& id, node* curr, std::string currPath, st
     wantedPathHelper(id, curr->instr[3], currPath, path);
     wantedPathHelper(id, curr->instr[4], currPath, path);
 }
-
-bool PTree::member(const int& id, node* curr) const
-{
-    return curr && (curr->index == id ||
-                    member(id, curr->instr[0]) ||
-                    member(id, curr->instr[1]) ||
-                    member(id, curr->instr[2]) ||
-                    member(id, curr->instr[3]) ||
-                    member(id, curr->instr[4]));
-}
