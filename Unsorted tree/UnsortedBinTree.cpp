@@ -139,7 +139,7 @@ int UnsBinTree<T>::height() const
 template <class T>
 int UnsBinTree<T>::heightHelp(UnsBinTree<T>::node* curr) const
 {
-    if(curr == nullptr || (!curr->right && curr->left))
+    if(curr == nullptr || (!curr->right && !curr->left))
     {
         return 0;
     }
