@@ -2,6 +2,8 @@
 #include <map>
 #include <optional>
 #include <vector>
+#include <unordered_map>
+#include <sstream>
 
 namespace mapf
 {
@@ -101,5 +103,55 @@ namespace mapf
         }
 
         std::cout << common << ": " << max << std::endl;
+    }
+
+    // Given an array of numbers check if there is a combinnation of 2 numbers that add up to a sum of X
+    bool check2Sum(const std::vector<int>& vector, int sum) {
+    std::unordered_map<int,int>m;
+        
+    for(const int & elem : vector){
+        if(m.count(sum - elem)){
+            return true;
+        }
+
+        m[elem] = elem;
+    }
+    return false;
+    }
+
+    bool check3Sum(std::vector<int> vector, int sum) {
+    for(int i = 0; i < vector.size(); ++i){
+        int elem = vector[i];
+        vector.erase(vector.begin()+i);
+
+        if(check2Sum(vector, sum - elem)) {     
+        return true;
+        }
+        vector.insert(vector.begin()+i, elem);
+    }
+    
+    return false;
+    }
+
+    bool wordPattern(std::string pattern, std::string s) {
+        std::unordered_map<char, std::string> m;
+        std::stringstream input(s);
+        std::unordered_map<std::string, char> uniqueWords;
+
+        std::string currWord;
+        for(char c : pattern)
+        {
+            input >> currWord;
+            if(!uniqueWords.count(currWord) && !m.count(c)){
+            uniqueWords[currWord] = c;
+            m[c] = currWord;
+            continue;
+            }
+
+            if(uniqueWords[currWord] != c){
+            return false;
+            }
+        }
+        return !(bool)(input >> currWord);
     }
 }
