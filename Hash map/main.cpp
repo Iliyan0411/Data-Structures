@@ -56,14 +56,45 @@ int main()
     // }
 
 
-    std::string t1, t2;
+    // std::string t1, t2;
 
-    std::getline(std::cin, t1);
+    // std::getline(std::cin, t1);
     // std::getline(std::cin, t2);
 
     // mapf::textSection(t1, t2);
     // mapf::histogram(t1);
     // mapf::commonWord(t1);
+
+    
+    
+    
+    
+    
+    // std::vector<int> v = {1,20,13,41,35,62,-7,5,9};
+
+    // std::cout << std::boolalpha << mapf::check2Sum(v, 21)
+    //         << std::endl << mapf::check2Sum(v, -3)
+    //         << std::endl << mapf::check2Sum(v, 14)
+    //         << std::endl << mapf::check2Sum(v, -14)
+    //         << std::endl << mapf::check2Sum(v, 10)
+    //         << std::endl << mapf::check2Sum(v, 100) << std::endl;
+
+    // 3SUM
+    // std::cout << std::boolalpha << mapf::check3Sum(v, 34)
+    //           << std::endl << mapf::check3Sum(v, -21) // important (expect false)
+    //           << std::endl << mapf::check3Sum(v, -9) // important (expect false)
+    //           << std::endl << mapf::check3Sum(v, 60)
+    //           << std::endl << mapf::check3Sum(v, 10)
+    //           << std::endl << mapf::check3Sum(v, 100) << std::endl;
+
+    // WordPattern
+    // std::cout << std::boolalpha << mapf::wordPattern("abba", "dog cat cat dog") // expected true
+    //             << std::endl << mapf::wordPattern("abba", "dog cat cat fish") // expected false
+    //             << std::endl << mapf::wordPattern("aaaa", "dog cat cat dog") // expected false
+    //             << std::endl << mapf::wordPattern("abba", "dog dog dog dog") // expected false
+    //             << std::endl << mapf::wordPattern("aaaa", "dog dog dog dog") // expected true
+    //             << std::endl << mapf::wordPattern("aaa", "dog dog dog dog") // expected false
+    //             << std::endl; 
 
 
     return 0;
