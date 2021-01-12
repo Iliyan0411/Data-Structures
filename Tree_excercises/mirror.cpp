@@ -16,9 +16,13 @@ bool mirror (Node* t1, Node* t2)
     if(!t1 && !t2) return true;
 
     return (t1 && t2) &&
-            t1->data == t2->data &&
             mirror(t1->left, t2->right) &&
             mirror(t1->right, t2->left);
+}
+
+bool foldable (Node* root)
+{
+    return !root || mirror(root->left, root->right);
 }
 
 void helper(Node* root, std::string currTrace, std::string& result, int x)
@@ -71,14 +75,13 @@ int getAt(Node* root, int i)
 
 int main()
 {
-    Node* root = new Node(5);
-    root->left = new Node(4);
-    root->left->left = new Node(3);
-    root->left->right = new Node(7);
-    root->left->right->left = new Node(8);
-    root->left->right->left->left = new Node(10);
-    root->left->right->left->left->left = new Node(0);
-    root->right = new Node(1);
+    Node* root = new Node(10);
+    root->left = new Node(7);
+    root->right = new Node(15);
+    root->left->left = new Node(5);
+    root->right->left = new Node(11);
+
+    // std::cout << foldable(root) << std::endl;
 
     // Node* root1 = new Node('a');
     // root1->right = new Node('b');
