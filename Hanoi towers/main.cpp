@@ -43,7 +43,7 @@ void playHanoiIter(int k, char from, char to, char temp)
 
 int main()
 {
-    playHanoiIter(3, 'A', 'C', 'B');
+    playHanoi(3, 'A', 'C', 'B');
 
 
     return 0;
